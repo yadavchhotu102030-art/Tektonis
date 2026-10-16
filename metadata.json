@@ -1,0 +1,6 @@
+{
+  "name": "OmniTools Pro - Free Online Web & Developer Utilities",
+  "description": "Fast, private, and 100% free online utility tools. High-demand converters, formatters, calculators, and generators with zero data tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
