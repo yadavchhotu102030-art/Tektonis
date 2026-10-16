@@ -36,7 +36,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Count words, characters, sentences, paragraphs, reading time, and examine keyword density.',
     longDescription:
       'Analyze your writing in real-time. Calculate exact word count, character count with and without spaces, estimated reading and speaking durations, Flesch reading ease score, and prominent keyword frequencies for SEO ranking.',
-    metaTitle: 'Free Online Word Counter & Character Calculator | OmniTools',
+    metaTitle: 'Free Online Word Counter & Character Calculator | Tektonis',
     metaDescription:
       'Instant free online word counter, character count tool, speaking time estimator, and SEO keyword density analyzer. 100% private, no signup required.',
     iconName: 'FileText',
@@ -80,7 +80,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Format, beautify, validate, minify, and inspect JSON with an interactive tree viewer.',
     longDescription:
       'Clean, beautify, and validate JSON data instantly. Detect syntax errors with line-number precision, compact minified JSON for production payloads, or browse complex hierarchical structures with an interactive tree visualizer.',
-    metaTitle: 'JSON Formatter & Validator Online – Beautify, Minify & Fix JSON | OmniTools',
+    metaTitle: 'JSON Formatter & Validator Online – Beautify, Minify & Fix JSON | Tektonis',
     metaDescription:
       'Free online JSON Formatter, Validator, and Minifier. Format JSON with 2 or 4 spaces, view collapsible trees, and fix syntax errors instantly.',
     iconName: 'Code',
@@ -119,7 +119,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Generate custom QR codes for URLs, Wi-Fi networks, text, emails, and phone contacts.',
     longDescription:
       'Create high-resolution QR codes in seconds. Customize colors, adjust error correction levels, and export crisp PNG or SVG vector files suitable for print marketing, websites, restaurant menus, and Wi-Fi sharing.',
-    metaTitle: 'Free QR Code Generator Online – Custom Colors, PNG & SVG | OmniTools',
+    metaTitle: 'Free QR Code Generator Online – Custom Colors, PNG & SVG | Tektonis',
     metaDescription:
       'Generate free custom QR codes for websites, Wi-Fi networks, plain text, and emails. Download high-resolution PNG or SVG vectors with zero watermark.',
     iconName: 'QrCode',
@@ -158,7 +158,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case, and kebab-case slugs.',
     longDescription:
       'Effortlessly convert text between 12 distinct casing styles. Perfect for software engineers naming variables, writers preparing SEO headlines, and web developers creating URL-friendly kebab-case slugs.',
-    metaTitle: 'Case Converter Online – Title Case, camelCase, snake_case & URL Slugs | OmniTools',
+    metaTitle: 'Case Converter Online – Title Case, camelCase, snake_case & URL Slugs | Tektonis',
     metaDescription:
       'Instantly convert text to Title Case, UPPERCASE, lowercase, camelCase, PascalCase, snake_case, and SEO kebab-case slugs with 1-click copy.',
     iconName: 'ArrowRightLeft',
@@ -192,7 +192,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Generate strong, cryptographically secure passwords, memorable passphrases, and numeric PINs.',
     longDescription:
       'Generate bulletproof passwords using modern cryptographic randomness (Web Crypto API). Customize character pools, exclude ambiguous characters like 0 and O, evaluate entropy in bits, or generate readable multi-word passphrases.',
-    metaTitle: 'Cryptographic Password Generator – Strong, Random & Memorable | OmniTools',
+    metaTitle: 'Cryptographic Password Generator – Strong, Random & Memorable | Tektonis',
     metaDescription:
       'Create cryptographically secure passwords with custom lengths, symbols, numbers, and NIST compliance. Free, private, and calculated in-browser.',
     iconName: 'Shield',
@@ -231,7 +231,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Compress and resize JPG, PNG, and WebP images directly in your browser with zero quality loss.',
     longDescription:
       'Shrink image file sizes by up to 85% to boost your Core Web Vitals and SEO page speed. Convert images to modern Google WebP format without uploading your photos to third-party servers.',
-    metaTitle: 'Free Client-Side Image Compressor & WebP Converter | OmniTools',
+    metaTitle: 'Free Client-Side Image Compressor & WebP Converter | Tektonis',
     metaDescription:
       'Compress PNG, JPG, and WebP images directly in your browser. Reduce file size up to 80% with zero quality loss and 100% privacy.',
     iconName: 'Image',
@@ -266,7 +266,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Encode and decode UTF-8 text or convert images into inline Base64 Data URIs.',
     longDescription:
       'Encode plain text into Base64 or decode Base64 strings back to readable UTF-8. Convert image files directly into Data URLs for embedding into HTML, CSS, or API request payloads.',
-    metaTitle: 'Base64 Encoder, Decoder & Image to Base64 Tool | OmniTools',
+    metaTitle: 'Base64 Encoder, Decoder & Image to Base64 Tool | Tektonis',
     metaDescription:
       'Fast, free Base64 encoder and decoder. Convert text and images to Base64 data URIs instantly. 100% client-side execution.',
     iconName: 'FileCode',
@@ -300,7 +300,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Convert HEX, RGB, HSL, and CMYK colors, evaluate WCAG accessibility contrast, and generate harmonious palettes.',
     longDescription:
       'All-in-one color utility for web designers and front-end developers. Convert across color formats, verify WCAG 2.1 AA and AAA accessibility contrast compliance, and build harmonious color schemes.',
-    metaTitle: 'Color Converter, WCAG Contrast Checker & Palette Generator | OmniTools',
+    metaTitle: 'Color Converter, WCAG Contrast Checker & Palette Generator | Tektonis',
     metaDescription:
       'Convert HEX, RGB, HSL, and CMYK color values. Test WCAG 2.1 contrast ratios for accessible web design and generate harmonic palettes.',
     iconName: 'Pipette',
@@ -334,7 +334,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Build Google Analytics UTM campaign tracking URLs and encode/decode query strings.',
     longDescription:
       'Generate tracking URLs for digital marketing campaigns. Add utm_source, utm_medium, utm_campaign, utm_term, and utm_content parameters effortlessly, or encode/decode complex URL query strings.',
-    metaTitle: 'UTM Campaign URL Builder & URL Encoder Online | OmniTools',
+    metaTitle: 'UTM Campaign URL Builder & URL Encoder Online | Tektonis',
     metaDescription:
       'Create Google Analytics UTM tracking URLs with preset mediums, live preview, and URL encoder/decoder. Free marketing tool.',
     iconName: 'Link2',
@@ -368,7 +368,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Convert Unix epoch timestamps to human-readable dates and vice versa with a live counter.',
     longDescription:
       'Real-time Unix epoch converter. Convert between timestamps in seconds or milliseconds and human-readable UTC/Local dates, ISO 8601 strings, and relative times.',
-    metaTitle: 'Unix Timestamp & Epoch Converter Online | OmniTools',
+    metaTitle: 'Unix Timestamp & Epoch Converter Online | Tektonis',
     metaDescription:
       'Live Unix Epoch clock and converter. Convert timestamps to human-readable dates, ISO 8601, and local time with one click.',
     iconName: 'Clock',
@@ -402,7 +402,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Convert units for length, weight, temperature, digital storage, and velocity.',
     longDescription:
       'Fast, multi-category unit converter. Convert metrics across distance, mass, digital memory, temperature, and speed simultaneously.',
-    metaTitle: 'Universal Unit Converter Online – Length, Weight, Temp & Storage | OmniTools',
+    metaTitle: 'Universal Unit Converter Online – Length, Weight, Temp & Storage | Tektonis',
     metaDescription:
       'Free unit converter for distance, mass, temperature, bytes, and speed. Instant real-time conversion across all metrics.',
     iconName: 'Ruler',
@@ -435,7 +435,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Compare two texts or code snippets to find additions, deletions, and percentage similarity.',
     longDescription:
       'Pinpoint differences between two versions of text or code. Features split and unified views, colored visual diff highlights, and a calculated similarity percentage.',
-    metaTitle: 'Text Diff Checker Online – Compare Code & Text | OmniTools',
+    metaTitle: 'Text Diff Checker Online – Compare Code & Text | Tektonis',
     metaDescription:
       'Compare two texts side-by-side or in unified view. See added, removed, and modified lines with exact similarity score.',
     iconName: 'Split',
@@ -469,7 +469,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Generate HTML meta tags, OpenGraph cards, and preview live Google SERP snippets.',
     longDescription:
       'Optimize web pages for search engines and social platforms. Generate clean <head> meta tags with character count validation, Google SERP search result simulation, and social card preview.',
-    metaTitle: 'SEO Meta Tag Generator & Google SERP Previewer | OmniTools',
+    metaTitle: 'SEO Meta Tag Generator & Google SERP Previewer | Tektonis',
     metaDescription:
       'Generate SEO title, description, and OpenGraph tags with live Google SERP preview and social media card mockup. Copy HTML instantly.',
     iconName: 'Search',
@@ -504,7 +504,7 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Generate placeholder Lorem Ipsum text in paragraphs, sentences, words, or bullet lists.',
     longDescription:
       'Generate customizable dummy text for mockups, prototypes, and layouts. Choose paragraphs, sentences, words, or lists, with optional HTML tags wrapper.',
-    metaTitle: 'Lorem Ipsum Generator – Dummy Text for Designers & Developers | OmniTools',
+    metaTitle: 'Lorem Ipsum Generator – Dummy Text for Designers & Developers | Tektonis',
     metaDescription:
       'Generate customized placeholder text, paragraphs, words, and lists with optional HTML formatting. Fast and free.',
     iconName: 'Layers',

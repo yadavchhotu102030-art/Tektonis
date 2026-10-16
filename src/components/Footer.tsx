@@ -65,10 +65,10 @@ export const Footer: React.FC<FooterProps> = ({
               <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold">
                 <Wrench className="w-4 h-4" />
               </div>
-              <span className="font-extrabold text-base text-slate-900 dark:text-white">OmniTools Pro</span>
+              <span className="font-extrabold text-base text-slate-900 dark:text-white">Tektonis</span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm leading-relaxed mb-4">
-              Free, private, and lightning-fast developer, content, and conversion tools designed to make everyday workflows simple and effortless.
+              Free, private, and lightning-fast developer, content, and conversion tools hosted at tektonis.in, designed to make everyday workflows simple and effortless.
             </p>
           </div>
 
@@ -140,7 +140,7 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Bottom copyright */}
         <div className="mt-12 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} OmniTools Pro. Free Online Utilities for Developers, Marketers & Creators.</p>
+          <p>© {new Date().getFullYear()} Tektonis (tektonis.in). Free Online Utilities for Developers, Marketers & Creators.</p>
           <div className="flex items-center gap-1 text-[11px]">
             <span>Fast, secure, and privacy-focused</span>
           </div>

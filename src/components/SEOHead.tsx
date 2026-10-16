@@ -8,12 +8,12 @@ interface SEOHeadProps {
 export const SEOHead: React.FC<SEOHeadProps> = ({ tool }) => {
   useEffect(() => {
     const siteTitle = tool
-      ? `${tool.name} – Free Online Tool | OmniTools Pro`
-      : 'OmniTools Pro – 100% Free Online Web & Developer Utilities';
+      ? `${tool.name} – Free Online Tool | Tektonis`
+      : 'Tektonis – 100% Free Online Web & Developer Utilities';
 
     const metaDescription = tool
       ? tool.metaDescription
-      : 'Fast, private, and 100% free online utility tools. High-demand converters, formatters, calculators, and generators with zero data tracking.';
+      : 'Fast, private, and 100% free online utility tools. High-demand converters, formatters, calculators, and generators with zero data tracking on tektonis.in.';
 
     document.title = siteTitle;
 
@@ -35,7 +35,8 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ tool }) => {
 
     // Update canonical link
     let canonical = document.querySelector('link[rel="canonical"]');
-    const currentUrl = window.location.origin + window.location.pathname + (tool ? `?tool=${tool.slug}` : '');
+    const baseOrigin = window.location.hostname.includes('tektonis.in') ? 'https://tektonis.in' : window.location.origin;
+    const currentUrl = baseOrigin + window.location.pathname + (tool ? `?tool=${tool.slug}` : '');
     if (!canonical) {
       canonical = document.createElement('link');
       canonical.setAttribute('rel', 'canonical');
@@ -91,12 +92,12 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ tool }) => {
       const homeSchema = {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: 'OmniTools Pro',
-        url: window.location.origin,
-        description: 'High-demand, fast, and free online utility tools with zero tracking.',
+        name: 'Tektonis',
+        url: 'https://tektonis.in',
+        description: 'Fast, private, and 100% free online utility tools on tektonis.in.',
         potentialAction: {
           '@type': 'SearchAction',
-          target: `${window.location.origin}/?search={search_term_string}`,
+          target: `https://tektonis.in/?search={search_term_string}`,
           'query-input': 'required name=search_term_string',
         },
       };

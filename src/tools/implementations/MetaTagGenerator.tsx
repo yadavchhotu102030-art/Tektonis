@@ -6,10 +6,10 @@ export const MetaTagGenerator: React.FC = () => {
   const [description, setDescription] = useState(
     'Discover 15+ fast, private, and 100% free web utility tools. Format JSON, count words, generate QR codes, test contrast, and convert units instantly.'
   );
-  const [url, setUrl] = useState('https://omnitools.example.com');
+  const [url, setUrl] = useState('https://tektonis.in');
   const [imageUrl, setImageUrl] = useState('https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop');
-  const [author, setAuthor] = useState('OmniTools Pro');
-  const [twitterUser, setTwitterUser] = useState('@omnitools');
+  const [author, setAuthor] = useState('Tektonis');
+  const [twitterUser, setTwitterUser] = useState('@tektonis');
   const [robots, setRobots] = useState('index, follow');
   const [copied, setCopied] = useState(false);
   const [previewTab, setPreviewTab] = useState<'google' | 'social'>('google');

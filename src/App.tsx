@@ -18,7 +18,7 @@ export default function App() {
   // Favorites stored in localStorage
   const [favorites, setFavorites] = useState<string[]>(() => {
     try {
-      const stored = localStorage.getItem('omni_favorites');
+      const stored = localStorage.getItem('tektonis_favorites') || localStorage.getItem('omni_favorites');
       return stored ? JSON.parse(stored) : ['word-counter', 'json-formatter', 'qr-code-generator'];
     } catch {
       return ['word-counter', 'json-formatter', 'qr-code-generator'];
@@ -28,7 +28,7 @@ export default function App() {
   // Dark Mode with localStorage
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     try {
-      const saved = localStorage.getItem('omni_theme');
+      const saved = localStorage.getItem('tektonis_theme') || localStorage.getItem('omni_theme');
       if (saved) return saved === 'dark';
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     } catch {
@@ -39,10 +39,10 @@ export default function App() {
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
-      localStorage.setItem('omni_theme', 'dark');
+      localStorage.setItem('tektonis_theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-      localStorage.setItem('omni_theme', 'light');
+      localStorage.setItem('tektonis_theme', 'light');
     }
   }, [darkMode]);
 

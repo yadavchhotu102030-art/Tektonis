@@ -6,7 +6,7 @@ export const Base64Tool: React.FC = () => {
   const [subMode, setSubMode] = useState<'encode' | 'decode'>('encode');
   
   // Text state
-  const [textInput, setTextInput] = useState('Hello World! Welcome to OmniTools Pro.');
+  const [textInput, setTextInput] = useState('Hello World! Welcome to Tektonis (https://tektonis.in).');
   const [textOutput, setTextOutput] = useState('');
   const [textError, setTextError] = useState<string | null>(null);
 

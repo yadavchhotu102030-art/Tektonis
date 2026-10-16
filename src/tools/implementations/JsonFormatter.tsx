@@ -5,7 +5,8 @@ export const JsonFormatter: React.FC = () => {
   const [input, setInput] = useState<string>(
     JSON.stringify(
       {
-        site: "OmniTools Pro",
+        site: "Tektonis",
+        domain: "tektonis.in",
         version: "2.4.0",
         active: true,
         stats: {

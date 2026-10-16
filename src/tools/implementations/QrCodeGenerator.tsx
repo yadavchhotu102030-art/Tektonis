@@ -6,8 +6,8 @@ export const QrCodeGenerator: React.FC = () => {
   const [qrType, setQrType] = useState<'url' | 'text' | 'wifi' | 'email' | 'phone'>('url');
   
   // Input fields
-  const [url, setUrl] = useState('https://google.com');
-  const [text, setText] = useState('Welcome to OmniTools Pro!');
+  const [url, setUrl] = useState('https://tektonis.in');
+  const [text, setText] = useState('Welcome to Tektonis! (https://tektonis.in)');
   const [wifiSsid, setWifiSsid] = useState('');
   const [wifiPassword, setWifiPassword] = useState('');
   const [wifiEncryption, setWifiEncryption] = useState<'WPA' | 'WEP' | 'nopass'>('WPA');

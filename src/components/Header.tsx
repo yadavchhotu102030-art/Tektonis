@@ -36,10 +36,10 @@ export const Header: React.FC<HeaderProps> = ({
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">
-                  OmniTools
+                  Tektonis
                 </span>
-                <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white uppercase tracking-wider">
-                  PRO
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white uppercase tracking-wider">
+                  .in
                 </span>
               </div>
               <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 block leading-none">
