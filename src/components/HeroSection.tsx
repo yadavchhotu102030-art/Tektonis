@@ -14,13 +14,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   tools,
 }) => {
   const popularKeywords = [
+    { label: 'Age Calculator', id: 'age-calculator' },
     { label: 'Word Counter', id: 'word-counter' },
     { label: 'QR Code Generator', id: 'qr-code-generator' },
     { label: 'JSON Formatter', id: 'json-formatter' },
+    { label: 'Loan & EMI Calculator', id: 'loan-calculator' },
     { label: 'Password Generator', id: 'password-generator' },
+    { label: 'BMI Calculator', id: 'bmi-calculator' },
     { label: 'Image Compressor', id: 'image-compressor' },
-    { label: 'Case Converter', id: 'case-converter' },
-    { label: 'Unit Converter', id: 'unit-converter' },
+    { label: 'Percentage Calculator', id: 'percentage-calculator' },
+    { label: 'Box Shadow Generator', id: 'box-shadow-generator' },
   ];
 
   return (

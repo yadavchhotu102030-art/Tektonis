@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   Star, ArrowRight, Sparkles, 
   FileText, Code, ArrowRightLeft, 
-  Shield, Image, Ruler, Clock, Layers, Split, Link2, Pipette, QrCode
+  Shield, Image, Ruler, Clock, Layers, Split, Link2, Pipette, QrCode,
+  Calendar, Percent, Calculator, Activity, Sliders
 } from 'lucide-react';
 import { ToolDefinition, ToolCategory } from '../types/tool';
 import { CATEGORIES } from '../tools/registry';
@@ -58,6 +59,16 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
         return <Split className="w-5 h-5 text-sky-500" />;
       case 'Layers':
         return <Layers className="w-5 h-5 text-lime-500" />;
+      case 'Calendar':
+        return <Calendar className="w-5 h-5 text-blue-500" />;
+      case 'Percent':
+        return <Percent className="w-5 h-5 text-indigo-500" />;
+      case 'Calculator':
+        return <Calculator className="w-5 h-5 text-emerald-500" />;
+      case 'Activity':
+        return <Activity className="w-5 h-5 text-rose-500" />;
+      case 'Sliders':
+        return <Sliders className="w-5 h-5 text-violet-500" />;
       default:
         return <Sparkles className="w-5 h-5 text-blue-500" />;
     }

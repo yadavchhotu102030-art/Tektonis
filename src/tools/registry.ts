@@ -13,13 +13,20 @@ import { DiffChecker } from './implementations/DiffChecker';
 import { ImageCompressor } from './implementations/ImageCompressor';
 import { LoremIpsumGenerator } from './implementations/LoremIpsumGenerator';
 import { MetaTagGenerator } from './implementations/MetaTagGenerator';
+import { AgeCalculator } from './implementations/AgeCalculator';
+import { PercentageCalculator } from './implementations/PercentageCalculator';
+import { LoanCalculator } from './implementations/LoanCalculator';
+import { BmiCalculator } from './implementations/BmiCalculator';
+import { BoxShadowGenerator } from './implementations/BoxShadowGenerator';
+import { MarkdownConverter } from './implementations/MarkdownConverter';
 
 export const CATEGORIES: { id: ToolCategory; label: string; icon: string; count?: number }[] = [
   { id: 'all', label: 'All Utilities', icon: 'Grid' },
+  { id: 'utilities', label: 'Math & Life', icon: 'Calculator' },
   { id: 'text', label: 'Text & Writing', icon: 'FileText' },
   { id: 'developer', label: 'Developer Tools', icon: 'Code' },
   { id: 'web-seo', label: 'Web & SEO', icon: 'Search' },
-  { id: 'converter', label: 'Converters & Calculators', icon: 'ArrowRightLeft' },
+  { id: 'converter', label: 'Converters', icon: 'ArrowRightLeft' },
   { id: 'security', label: 'Security & Privacy', icon: 'Shield' },
   { id: 'image', label: 'Image & Media', icon: 'Image' },
 ];
@@ -527,4 +534,223 @@ export const TOOLS: ToolDefinition[] = [
       },
     ],
   },
+  {
+    id: 'age-calculator',
+    slug: 'age-calculator',
+    name: 'Age & Date Calculator',
+    category: 'utilities',
+    badge: 'Popular',
+    searchVolumeMonthly: '22M / mo',
+    targetKeywords: ['age calculator', 'calculate age from date of birth', 'date difference calculator', 'birthday countdown', 'days lived calculator'],
+    shortDescription: 'Calculate exact chronological age in years, months, and days, plus birthday countdown and zodiac sign.',
+    longDescription:
+      'Find your precise age down to the day, hour, and minute. View the countdown to your next birthday, days lived, astrological zodiac sign, and calculate the exact difference between any two calendar dates.',
+    metaTitle: 'Free Age Calculator Online – Calculate Age from Date of Birth | Tektonis',
+    metaDescription:
+      'Calculate exact age in years, months, days, and hours from your date of birth. Includes next birthday countdown and date difference calculator.',
+    iconName: 'Calendar',
+    component: AgeCalculator,
+    features: [
+      'Chronological age calculation in years, months, days, hours, and seconds',
+      'Next birthday countdown and day-of-week birth analysis',
+      'Astrological zodiac sign finder',
+      'Date difference calculator for any two arbitrary calendar dates',
+      '100% private in-browser computation with one-click summary copy',
+    ],
+    howToUse: [
+      { step: '1. Enter Birth Date', description: 'Select your date of birth from the calendar picker.' },
+      { step: '2. Select Target Date', description: 'Defaults to today or select any custom date to calculate age at.' },
+      { step: '3. View Detailed Age Breakdown', description: 'Inspect exact years, months, days, total hours, and next birthday countdown.' },
+      { step: '4. Copy Summary', description: 'Click Copy Summary to share or save your age statistics.' },
+    ],
+    faqs: [
+      {
+        question: 'How is exact age calculated with leap years?',
+        answer: 'The calculator accounts for leap years and the varying number of days in each calendar month to give mathematically exact year, month, and day durations.',
+      },
+      {
+        question: 'Can I calculate the number of days between two arbitrary dates?',
+        answer: 'Yes! Switch to the Date Difference tab to calculate total days, weeks, and hours between any start and end date.',
+      },
+    ],
+  },
+  {
+    id: 'percentage-calculator',
+    slug: 'percentage-calculator',
+    name: 'Percentage & Discount Calculator',
+    category: 'utilities',
+    badge: 'Popular',
+    searchVolumeMonthly: '16M / mo',
+    targetKeywords: ['percentage calculator', 'what is x percent of y', 'percentage increase calculator', 'discount calculator', 'sale price calculator'],
+    shortDescription: 'Calculate percentage values, ratios, percentage increase/decrease, and retail sale discounts.',
+    longDescription:
+      'All-in-one percentage calculation suite. Quickly compute X% of Y, find what percentage X is of Y, measure percentage increases and decreases, and calculate discounted shopping prices with total savings.',
+    metaTitle: 'Percentage Calculator Online – Percentage Increase & Discount Calculator | Tektonis',
+    metaDescription:
+      'Free online percentage calculator. Solve what is X% of Y, percentage increase/decrease, ratios, and sale price discounts instantly.',
+    iconName: 'Percent',
+    component: PercentageCalculator,
+    features: [
+      'What is X% of Y? (Basic percentage)',
+      'X is what percent of Y? (Fraction and ratio percentage)',
+      'Percentage change calculator (growth, increase, and decrease rate)',
+      'Discount & retail sale price calculator with total savings',
+      'Instant real-time calculations as you type with 1-click copy',
+    ],
+    howToUse: [
+      { step: '1. Pick a Mode', description: 'Select one of the 4 dedicated calculation cards.' },
+      { step: '2. Input Numbers', description: 'Enter your values in the input boxes.' },
+      { step: '3. Get Instant Result', description: 'Results update instantly without page reloads or submit buttons.' },
+    ],
+    faqs: [
+      {
+        question: 'How do you calculate percentage increase or decrease?',
+        answer: 'Subtract the original value from the new value, divide by the original value, and multiply by 100. A positive result is an increase; a negative result is a decrease.',
+      },
+    ],
+  },
+  {
+    id: 'loan-calculator',
+    slug: 'loan-calculator',
+    name: 'Loan & EMI Calculator',
+    category: 'utilities',
+    badge: 'Essential',
+    searchVolumeMonthly: '19M / mo',
+    targetKeywords: ['loan calculator', 'emi calculator', 'mortgage calculator', 'car loan calculator', 'home loan emi calculator'],
+    shortDescription: 'Calculate monthly loan EMI payments, total interest payable, and annual amortization schedule.',
+    longDescription:
+      'Plan your home loans, car financing, personal loans, and mortgages. Adjust principal loan amount, annual interest rate, and tenure to visualize monthly payments, total repayment, and year-by-year amortization.',
+    metaTitle: 'Loan & EMI Calculator Online – Monthly Payment & Amortization | Tektonis',
+    metaDescription:
+      'Calculate monthly EMI payments, total interest, and annual amortization schedule for home, auto, or personal loans. Free and instant.',
+    iconName: 'Calculator',
+    component: LoanCalculator,
+    features: [
+      'Accurate monthly EMI calculation using standard financial formulas',
+      'Principal vs. Interest percentage breakdown and visual ratio bar',
+      'Multi-currency support ($, €, £, ₹)',
+      'Interactive annual amortization schedule table showing yearly balance',
+      'Interactive slider controls for real-time scenario modeling',
+    ],
+    howToUse: [
+      { step: '1. Set Loan Amount', description: 'Use the slider or enter your target principal loan amount.' },
+      { step: '2. Set Interest Rate & Tenure', description: 'Input your annual percentage rate (APR) and loan length in years.' },
+      { step: '3. Review Payment Breakdown', description: 'See your monthly EMI, total interest cost, and amortization schedule.' },
+    ],
+    faqs: [
+      {
+        question: 'What is EMI in loans?',
+        answer: 'EMI stands for Equated Monthly Installment. It is the fixed payment amount made by a borrower to a lender at a specified date each calendar month until the loan is fully repaid.',
+      },
+      {
+        question: 'How is loan interest calculated?',
+        answer: 'EMI is calculated using the reducing balance method: E = P × r × (1+r)^n / ((1+r)^n - 1), where P is principal, r is periodic interest rate, and n is total number of monthly payments.',
+      },
+    ],
+  },
+  {
+    id: 'bmi-calculator',
+    slug: 'bmi-calculator',
+    name: 'BMI & Health Calculator',
+    category: 'utilities',
+    badge: 'Popular',
+    searchVolumeMonthly: '18M / mo',
+    targetKeywords: ['bmi calculator', 'body mass index calculator', 'ideal weight calculator', 'bmr calculator', 'daily calorie calculator'],
+    shortDescription: 'Calculate Body Mass Index (BMI), WHO weight category, ideal body weight, and daily calorie needs (TDEE).',
+    longDescription:
+      'Evaluate healthy body weight with World Health Organization (WHO) BMI benchmarks. Supports Metric and Imperial units, displays your ideal healthy weight range, and estimates Basal Metabolic Rate (BMR) and daily calorie burn.',
+    metaTitle: 'Free BMI Calculator Online – Body Mass Index & Ideal Weight | Tektonis',
+    metaDescription:
+      'Calculate your Body Mass Index (BMI), WHO weight status, ideal body weight range, and daily calorie expenditure (TDEE). Free and private.',
+    iconName: 'Activity',
+    component: BmiCalculator,
+    features: [
+      'Metric (cm/kg) and Imperial (ft-in/lbs) unit support',
+      'WHO Body Mass Index classification gauge (Underweight, Normal, Overweight, Obese)',
+      'Ideal healthy weight range based on normal BMI (18.5–24.9)',
+      'Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) estimation',
+    ],
+    howToUse: [
+      { step: '1. Select Units & Gender', description: 'Choose Metric or Imperial and select your gender and age.' },
+      { step: '2. Input Height & Weight', description: 'Enter your height and weight measurements.' },
+      { step: '3. Check Results', description: 'View your BMI score, weight category gauge, and ideal target weight.' },
+    ],
+    faqs: [
+      {
+        question: 'What is a healthy BMI for adults?',
+        answer: 'According to the World Health Organization (WHO), a BMI between 18.5 and 24.9 is considered the normal, healthy weight range for adult men and women.',
+      },
+    ],
+  },
+  {
+    id: 'box-shadow-generator',
+    slug: 'box-shadow-generator',
+    name: 'CSS Box Shadow Generator',
+    category: 'developer',
+    badge: 'Popular',
+    searchVolumeMonthly: '2.2M / mo',
+    targetKeywords: ['box shadow generator', 'css box shadow', 'css shadow generator', 'tailwind box shadow', 'inset shadow generator'],
+    shortDescription: 'Visually design CSS and Tailwind box shadows with interactive sliders, blur, spread, and design presets.',
+    longDescription:
+      'Create stunning CSS box shadows visually. Customize horizontal offset, vertical offset, blur radius, spread, opacity, inset mode, and test on light and dark canvases. Generates copyable CSS and Tailwind CSS classes.',
+    metaTitle: 'CSS Box Shadow Generator – Visual Shadow & Tailwind Code | Tektonis',
+    metaDescription:
+      'Visual CSS box shadow generator. Adjust blur, spread, offset, and color with real-time preview. Copy CSS and Tailwind shadow classes instantly.',
+    iconName: 'Sliders',
+    component: BoxShadowGenerator,
+    features: [
+      'Visual sliders for horizontal offset, vertical offset, blur radius, spread, and opacity',
+      'Support for inset inner shadows',
+      'Live interactive preview box with dark canvas toggle',
+      'One-click copy for pure CSS (`box-shadow: ...`) and Tailwind CSS classes',
+      'Curated designer presets: Soft Modern, Elevated Card, Float Glow, and Neo-Brutalist',
+    ],
+    howToUse: [
+      { step: '1. Adjust Sliders', description: 'Tune X/Y offset, blur, spread radius, and opacity.' },
+      { step: '2. Test Preview', description: 'Observe the shadow in real-time and toggle light/dark background.' },
+      { step: '3. Copy Code', description: 'Copy the CSS rule or Tailwind arbitrary shadow class.' },
+    ],
+    faqs: [
+      {
+        question: 'How do I use this shadow in Tailwind CSS?',
+        answer: 'Click "Copy Tailwind" to copy the arbitrary utility class (e.g. `shadow-[0px_10px_25px_-5px_rgba(0,0,0,0.2)]`) directly into your HTML or JSX class list.',
+      },
+    ],
+  },
+  {
+    id: 'markdown-converter',
+    slug: 'markdown-converter',
+    name: 'Markdown to HTML Converter',
+    category: 'text',
+    badge: 'Popular',
+    searchVolumeMonthly: '3.1M / mo',
+    targetKeywords: ['markdown to html', 'markdown editor online', 'convert markdown to html', 'live markdown previewer', 'markdown parser'],
+    shortDescription: 'Convert formatted Markdown to clean HTML with split-screen editor, live preview, and syntax tools.',
+    longDescription:
+      'Edit and preview Markdown in real-time. Supports headings, bold/italics, blockquotes, code blocks, lists, links, and tables. Export clean HTML with a single click or download as a standalone .html file.',
+    metaTitle: 'Markdown to HTML Converter Online – Live Preview & Editor | Tektonis',
+    metaDescription:
+      'Convert Markdown to HTML online with live split preview, formatting toolbar, and instant HTML export. 100% free and client-side.',
+    iconName: 'FileText',
+    component: MarkdownConverter,
+    features: [
+      'Split-view editor with live real-time HTML rendering',
+      'Rich formatting toolbar for headings, bold, italics, code blocks, quotes, and links',
+      'Clean HTML code output with one-click copy',
+      'Download document as .html file directly from the browser',
+      'Zero server upload — 100% client-side privacy',
+    ],
+    howToUse: [
+      { step: '1. Type or Paste Markdown', description: 'Enter your markdown text into the left editor pane.' },
+      { step: '2. Format with Toolbar', description: 'Use the quick formatting icons for headers, bold, code, and links.' },
+      { step: '3. Copy or Export HTML', description: 'Click "Copy HTML" or download the generated HTML file.' },
+    ],
+    faqs: [
+      {
+        question: 'Does this converter support code blocks and lists?',
+        answer: 'Yes! It supports fenced code blocks (` ``` `), inline code (` ` `), blockquotes, lists, bold, italics, links, and multi-level headings.',
+      },
+    ],
+  },
 ];
+
