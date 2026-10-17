@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="40" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+
+  <!-- Ambient Glow Circles -->
+  <circle cx="200" cy="180" r="220" fill="#3b82f6" opacity="0.18" filter="url(#glow)" />
+  <circle cx="1000" cy="450" r="260" fill="#8b5cf6" opacity="0.18" filter="url(#glow)" />
+  
+  <!-- Subtle Grid Pattern -->
+  <g stroke="#ffffff" stroke-opacity="0.04" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="630" />
+    <line x1="300" y1="0" x2="300" y2="630" />
+    <line x1="500" y1="0" x2="500" y2="630" />
+    <line x1="700" y1="0" x2="700" y2="630" />
+    <line x1="900" y1="0" x2="900" y2="630" />
+    <line x1="1100" y1="0" x2="1100" y2="630" />
+    <line x1="0" y1="100" x2="1200" y2="100" />
+    <line x1="0" y1="200" x2="1200" y2="200" />
+    <line x1="0" y1="300" x2="1200" y2="300" />
+    <line x1="0" y1="400" x2="1200" y2="400" />
+    <line x1="0" y1="500" x2="1200" y2="500" />
+  </g>
+
+  <!-- Content Container -->
+  <g transform="translate(100, 100)">
+    <!-- Pill Badge -->
+    <rect x="0" y="0" width="280" height="42" rx="21" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <circle cx="24" cy="21" r="6" fill="#10b981" />
+    <text x="40" y="26" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" letter-spacing="0.5">100% PRIVATE &amp; IN-BROWSER</text>
+
+    <!-- Main Title -->
+    <text x="0" y="140" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="76" font-weight="900" letter-spacing="-1.5">Tektonis</text>
+    
+    <!-- Gradient Subtitle / Tagline -->
+    <text x="0" y="210" fill="url(#accent)" font-family="system-ui, -apple-system, sans-serif" font-size="34" font-weight="700">Free Online Web &amp; Developer Utilities</text>
+
+    <!-- Description -->
+    <text x="0" y="275" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="400">Word Counter • JSON Formatter • Password Generator • QR Code • Image Compressor</text>
+    <text x="0" y="310" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="400">Fast, 100% client-side privacy, zero data collection, no signup required.</text>
+
+    <!-- Domain Pill -->
+    <g transform="translate(0, 360)">
+      <rect x="0" y="0" width="160" height="44" rx="12" fill="url(#accent)" />
+      <text x="24" y="28" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">tektonis.in</text>
+    </g>
+  </g>
+</svg>

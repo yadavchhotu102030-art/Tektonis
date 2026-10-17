@@ -277,6 +277,7 @@ export const QrCodeGenerator: React.FC = () => {
                 <input
                   type="color"
                   value={bgColor}
+                  aria-label="Background QR code color"
                   onChange={(e) => setBgColor(e.target.value)}
                   className="w-8 h-8 rounded-md border border-slate-300 cursor-pointer p-0"
                 />
@@ -288,6 +289,7 @@ export const QrCodeGenerator: React.FC = () => {
               <label className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Error Correction</label>
               <select
                 value={errorLevel}
+                aria-label="QR code error correction level"
                 onChange={(e) => setErrorLevel(e.target.value as typeof errorLevel)}
                 className="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs"
               >
@@ -315,6 +317,7 @@ export const QrCodeGenerator: React.FC = () => {
           <div className="grid grid-cols-2 gap-2 w-full mt-4">
             <button
               onClick={handleDownloadPNG}
+              aria-label="Download QR code as PNG image"
               className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition"
             >
               <Download className="w-3.5 h-3.5" />
@@ -322,6 +325,7 @@ export const QrCodeGenerator: React.FC = () => {
             </button>
             <button
               onClick={handleDownloadSVG}
+              aria-label="Download QR code as SVG vector"
               className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-100 hover:bg-slate-200 transition"
             >
               <Download className="w-3.5 h-3.5" />

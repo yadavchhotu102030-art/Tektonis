@@ -105,7 +105,11 @@ export default function App() {
   };
 
   const relatedTools = activeTool
-    ? TOOLS.filter((t) => t.id !== activeTool.id && (t.category === activeTool.category || t.badge === 'Popular')).slice(0, 3)
+    ? (activeTool.relatedToolIds && activeTool.relatedToolIds.length > 0
+        ? (activeTool.relatedToolIds
+            .map((id) => TOOLS.find((t) => t.id === id || t.slug === id))
+            .filter((t): t is ToolDefinition => Boolean(t)))
+        : TOOLS.filter((t) => t.id !== activeTool.id && (t.category === activeTool.category || t.badge === 'Popular')).slice(0, 3))
     : [];
 
   return (

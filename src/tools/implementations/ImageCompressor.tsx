@@ -124,7 +124,7 @@ export const ImageCompressor: React.FC = () => {
           </p>
           <label className="mt-5 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl cursor-pointer shadow-sm transition">
             Select PNG, JPG, or WebP
-            <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+            <input type="file" aria-label="Upload image to compress" accept="image/*" onChange={handleFileUpload} className="hidden" />
           </label>
         </div>
       ) : (
@@ -133,9 +133,11 @@ export const ImageCompressor: React.FC = () => {
           <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
             {/* Format */}
             <div>
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Output Format</label>
+              <label htmlFor="img-format-select" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Output Format</label>
               <select
+                id="img-format-select"
                 value={format}
+                aria-label="Output image format"
                 onChange={(e) => {
                   const f = e.target.value as typeof format;
                   setFormat(f);
@@ -152,14 +154,16 @@ export const ImageCompressor: React.FC = () => {
             {/* Quality */}
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Quality</label>
+                <label htmlFor="img-quality-slider" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Quality</label>
                 <span className="text-xs font-bold text-blue-600">{quality}%</span>
               </div>
               <input
+                id="img-quality-slider"
                 type="range"
                 min={10}
                 max={100}
                 value={quality}
+                aria-label="Compression quality slider"
                 disabled={format === 'image/png'}
                 onChange={(e) => {
                   const q = Number(e.target.value);
@@ -174,10 +178,11 @@ export const ImageCompressor: React.FC = () => {
             <div className="flex items-center gap-2 justify-end">
               <label className="px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 cursor-pointer transition">
                 Change Image
-                <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                <input type="file" aria-label="Upload different image" accept="image/*" onChange={handleFileUpload} className="hidden" />
               </label>
               <button
                 onClick={handleDownload}
+                aria-label="Download compressed image"
                 disabled={!compressedUrl}
                 className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition"
               >

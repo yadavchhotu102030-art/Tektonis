@@ -20,6 +20,14 @@ export interface HowToStep {
   description: string;
 }
 
+export interface ToolExplainer {
+  title: string;
+  whatItDoes: string;
+  howItWorks: string;
+  whenToUse: string[];
+  clientSideBenefit: string;
+}
+
 export interface ToolDefinition {
   id: string;
   slug: string;
@@ -37,4 +45,6 @@ export interface ToolDefinition {
   features: string[];
   howToUse: HowToStep[];
   faqs: FAQItem[];
+  relatedToolIds?: string[];
+  explainer?: ToolExplainer;
 }

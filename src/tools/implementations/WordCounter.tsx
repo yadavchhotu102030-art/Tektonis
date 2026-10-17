@@ -178,6 +178,7 @@ export const WordCounter: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handleSample}
+              aria-label="Load sample text"
               className="px-2.5 py-1 text-xs font-medium rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition"
             >
               Load Sample
@@ -185,6 +186,7 @@ export const WordCounter: React.FC = () => {
             <button
               onClick={handleCopy}
               disabled={!text}
+              aria-label="Copy text to clipboard"
               className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-lg bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 transition disabled:opacity-40"
             >
               {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -193,6 +195,7 @@ export const WordCounter: React.FC = () => {
             <button
               onClick={handleClear}
               disabled={!text}
+              aria-label="Clear text"
               className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition disabled:opacity-40"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -204,6 +207,7 @@ export const WordCounter: React.FC = () => {
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
+          aria-label="Text editor for word and character counting"
           placeholder="Type or paste your text here to view instant word count, reading time, keyword density, and readability analysis..."
           rows={9}
           className="w-full p-4 text-slate-800 dark:text-slate-100 bg-transparent resize-y outline-hidden font-normal text-base leading-relaxed"

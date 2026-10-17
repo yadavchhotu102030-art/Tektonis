@@ -162,6 +162,7 @@ export const PasswordGenerator: React.FC = () => {
             </button>
             <button
               onClick={handleGenerate}
+              aria-label="Generate new password"
               className="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:bg-slate-200 transition"
               title="Generate New"
             >
@@ -190,7 +191,7 @@ export const PasswordGenerator: React.FC = () => {
           <>
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                <label htmlFor="pwd-length-slider" className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
                   Password Length: <span className="text-blue-600 dark:text-blue-400 font-mono text-sm">{length}</span>
                 </label>
                 <div className="flex gap-1.5">
@@ -198,6 +199,7 @@ export const PasswordGenerator: React.FC = () => {
                     <button
                       key={preset}
                       onClick={() => setLength(preset)}
+                      aria-label={`Set length to ${preset}`}
                       className={`px-2 py-0.5 text-xs font-semibold rounded-md border ${
                         length === preset
                           ? 'bg-blue-50 border-blue-300 text-blue-600 dark:bg-blue-900/40 dark:border-blue-700 dark:text-blue-300'
@@ -210,10 +212,12 @@ export const PasswordGenerator: React.FC = () => {
                 </div>
               </div>
               <input
+                id="pwd-length-slider"
                 type="range"
                 min={6}
                 max={64}
                 value={length}
+                aria-label="Password length slider"
                 onChange={(e) => setLength(Number(e.target.value))}
                 className="w-full accent-blue-600 cursor-pointer"
               />

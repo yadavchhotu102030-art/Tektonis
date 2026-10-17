@@ -196,6 +196,7 @@ export const JsonFormatter: React.FC = () => {
                 setIndent(2);
                 formatJson(2);
               }}
+              aria-label="Format JSON with 2 space indentation"
               className={`px-2.5 py-1 text-xs font-semibold rounded-md transition ${
                 indent === 2 ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
               }`}
@@ -207,6 +208,7 @@ export const JsonFormatter: React.FC = () => {
                 setIndent(4);
                 formatJson(4);
               }}
+              aria-label="Format JSON with 4 space indentation"
               className={`px-2.5 py-1 text-xs font-semibold rounded-md transition ${
                 indent === 4 ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
               }`}
@@ -217,6 +219,7 @@ export const JsonFormatter: React.FC = () => {
 
           <button
             onClick={minifyJson}
+            aria-label="Minify JSON"
             className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition"
           >
             <Minimize2 className="w-3.5 h-3.5" />
@@ -225,6 +228,7 @@ export const JsonFormatter: React.FC = () => {
 
           <button
             onClick={validateJson}
+            aria-label="Validate JSON syntax"
             className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition"
           >
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
@@ -234,7 +238,7 @@ export const JsonFormatter: React.FC = () => {
           <label className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition cursor-pointer">
             <Upload className="w-3.5 h-3.5" />
             <span>Upload .json</span>
-            <input type="file" accept=".json,application/json" onChange={handleFileUpload} className="hidden" />
+            <input type="file" aria-label="Upload JSON file" accept=".json,application/json" onChange={handleFileUpload} className="hidden" />
           </label>
         </div>
 
@@ -242,6 +246,7 @@ export const JsonFormatter: React.FC = () => {
           <div className="flex items-center bg-slate-200 dark:bg-slate-700 rounded-lg p-0.5">
             <button
               onClick={() => setActiveTab('editor')}
+              aria-label="Switch to Editor tab"
               className={`px-2.5 py-1 text-xs font-medium rounded-md ${
                 activeTab === 'editor' ? 'bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-300'
               }`}
@@ -250,6 +255,7 @@ export const JsonFormatter: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('tree')}
+              aria-label="Switch to Interactive Tree tab"
               className={`px-2.5 py-1 text-xs font-medium rounded-md ${
                 activeTab === 'tree' ? 'bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-300'
               }`}
@@ -260,6 +266,7 @@ export const JsonFormatter: React.FC = () => {
 
           <button
             onClick={handleCopy}
+            aria-label="Copy formatted JSON to clipboard"
             className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 transition"
           >
             {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -268,6 +275,7 @@ export const JsonFormatter: React.FC = () => {
 
           <button
             onClick={handleDownload}
+            aria-label="Download formatted JSON file"
             className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 transition"
           >
             <Download className="w-3.5 h-3.5" />
@@ -276,6 +284,7 @@ export const JsonFormatter: React.FC = () => {
 
           <button
             onClick={() => setInput('')}
+            aria-label="Clear JSON input"
             className="p-1.5 text-slate-400 hover:text-rose-500 transition rounded-md"
             title="Clear"
           >
@@ -309,6 +318,7 @@ export const JsonFormatter: React.FC = () => {
                 if (err instanceof Error) setError(err.message);
               }
             }}
+            aria-label="JSON code editor"
             placeholder="Paste your JSON here..."
             rows={18}
             spellCheck={false}
