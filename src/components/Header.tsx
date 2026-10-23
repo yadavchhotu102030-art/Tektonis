@@ -69,11 +69,12 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex-1 max-w-md hidden sm:block">
           <button
             onClick={onOpenCommandPalette}
+            aria-label="Search all tools and keywords"
             className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100/80 dark:hover:bg-slate-800 transition text-slate-400 text-xs shadow-2xs"
           >
             <div className="flex items-center gap-2 truncate">
               <Search className="w-3.5 h-3.5 text-slate-400" />
-              <span className="truncate">Search 14+ tools or keywords...</span>
+              <span className="truncate">Search 20+ tools or keywords...</span>
             </div>
             <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-semibold rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-300">
               ⌘K
@@ -86,6 +87,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mobile search trigger */}
           <button
             onClick={onOpenCommandPalette}
+            aria-label="Open search dialog"
             className="sm:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl"
             title="Search tools"
           >
@@ -95,6 +97,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Favorites */}
           <button
             onClick={onShowFavorites}
+            aria-label={`Saved Favorite Tools (${favoritesCount} saved)`}
             className="relative p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition"
             title="Saved Favorite Tools"
           >
@@ -109,8 +112,9 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Dark / Light Toggle */}
           <button
             onClick={onToggleDarkMode}
+            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition"
-            title="Toggle color theme"
+            title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
             {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
           </button>

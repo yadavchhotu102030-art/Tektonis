@@ -39,9 +39,11 @@ export default function App() {
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = 'dark';
       localStorage.setItem('tektonis_theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
+      document.documentElement.style.colorScheme = 'light';
       localStorage.setItem('tektonis_theme', 'light');
     }
   }, [darkMode]);
@@ -96,7 +98,7 @@ export default function App() {
     setFavorites((prev) => {
       const next = prev.includes(toolId) ? prev.filter((id) => id !== toolId) : [...prev, toolId];
       try {
-        localStorage.setItem('omni_favorites', JSON.stringify(next));
+        localStorage.setItem('tektonis_favorites', JSON.stringify(next));
       } catch (err) {
         console.error(err);
       }
