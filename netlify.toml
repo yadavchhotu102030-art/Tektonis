@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://tektonis.netlify.app*"
+  to = "https://tektonis.in"
+  status = 301
+  force = true
