@@ -3,6 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Immediate 301 client redirect if accessed via Netlify subdomain
+      if (window.location.hostname === 'tektonis.netlify.app') {
+        window.location.replace('https://tektonis.in' + window.location.pathname + window.location.search + window.location.hash);
+      }
+    </script>
     <title>Tektonis — Free Online Web & Developer Utilities</title>
     <meta name="description" content="Fast, private, and 100% free online utility tools. High-demand converters, formatters, calculators, and generators with zero data tracking on Tektonis." />
     <meta name="keywords" content="word counter, json formatter, qr code generator, password generator, image compressor, base64 encoder, case converter, unit converter, diff checker, color picker, developer tools, free online utilities, tektonis" />

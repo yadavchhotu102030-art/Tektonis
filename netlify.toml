@@ -1,0 +1,22 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+# Force 301 Redirect from tektonis.netlify.app to primary domain tektonis.in
+[[redirects]]
+  from = "https://tektonis.netlify.app/*"
+  to = "https://tektonis.in/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://tektonis.netlify.app/*"
+  to = "https://tektonis.in/:splat"
+  status = 301
+  force = true
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
