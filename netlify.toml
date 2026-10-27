@@ -2,7 +2,7 @@
   publish = "dist"
   command = "npm run build"
 
-# Force 301 Redirect from tektonis.netlify.app to primary domain tektonis.in
+# 1. Force 301 Redirect from legacy Netlify subdomain to primary domain tektonis.in
 [[redirects]]
   from = "https://tektonis.netlify.app/*"
   to = "https://tektonis.in/:splat"
@@ -15,7 +15,20 @@
   status = 301
   force = true
 
-# SPA fallback
+# 2. Permanent 301 Redirect from legacy query format /?tool=:slug to clean path /tools/:slug
+[[redirects]]
+  from = "/"
+  to = "/tools/:slug"
+  status = 301
+  force = true
+  query = {tool = ":slug"}
+
+# 3. SPA Client-Side Routing Fallbacks
+[[redirects]]
+  from = "/tools/*"
+  to = "/index.html"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -82,12 +82,18 @@ export const Footer: React.FC<FooterProps> = ({
                 .filter((t) => t.category === 'text')
                 .map((t) => (
                   <li key={t.id}>
-                    <button
-                      onClick={() => onSelectTool(t)}
+                    <a
+                      href={`/tools/${t.slug}`}
+                      onClick={(e) => {
+                        if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+                          e.preventDefault();
+                          onSelectTool(t);
+                        }
+                      }}
                       className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition"
                     >
                       {t.name}
-                    </button>
+                    </a>
                   </li>
                 ))}
             </ul>
@@ -104,12 +110,18 @@ export const Footer: React.FC<FooterProps> = ({
                 .slice(0, 5)
                 .map((t) => (
                   <li key={t.id}>
-                    <button
-                      onClick={() => onSelectTool(t)}
+                    <a
+                      href={`/tools/${t.slug}`}
+                      onClick={(e) => {
+                        if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+                          e.preventDefault();
+                          onSelectTool(t);
+                        }
+                      }}
                       className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition"
                     >
                       {t.name}
-                    </button>
+                    </a>
                   </li>
                 ))}
             </ul>
@@ -126,12 +138,18 @@ export const Footer: React.FC<FooterProps> = ({
                 .slice(0, 5)
                 .map((t) => (
                   <li key={t.id}>
-                    <button
-                      onClick={() => onSelectTool(t)}
+                    <a
+                      href={`/tools/${t.slug}`}
+                      onClick={(e) => {
+                        if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+                          e.preventDefault();
+                          onSelectTool(t);
+                        }
+                      }}
                       className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition"
                     >
                       {t.name}
-                    </button>
+                    </a>
                   </li>
                 ))}
             </ul>

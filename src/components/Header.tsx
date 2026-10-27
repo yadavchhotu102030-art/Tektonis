@@ -26,8 +26,14 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
         {/* Logo / Brand */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={onGoHome}
+          <a
+            href="/"
+            onClick={(e) => {
+              if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+                e.preventDefault();
+                onGoHome();
+              }
+            }}
             className="flex items-center gap-2.5 text-left group transition focus:outline-hidden"
           >
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
@@ -46,17 +52,23 @@ export const Header: React.FC<HeaderProps> = ({
                 100% Free & Private Utilities
               </span>
             </div>
-          </button>
+          </a>
 
           {activeTool && (
             <div className="hidden md:flex items-center gap-2 pl-3 border-l border-slate-200 dark:border-slate-700">
-              <button
-                onClick={onGoHome}
+              <a
+                href="/"
+                onClick={(e) => {
+                  if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+                    e.preventDefault();
+                    onGoHome();
+                  }
+                }}
                 className="flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
               >
                 <Home className="w-3.5 h-3.5" />
                 <span>All Tools</span>
-              </button>
+              </a>
               <span className="text-slate-300 dark:text-slate-600">/</span>
               <span className="text-xs font-bold text-blue-600 dark:text-blue-400 truncate max-w-[160px]">
                 {activeTool.name}

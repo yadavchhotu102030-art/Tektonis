@@ -3,26 +3,37 @@ import { ToolDefinition } from '../types/tool';
 
 interface SEOHeadProps {
   tool?: ToolDefinition | null;
+  isNotFound?: boolean;
 }
 
-export const SEOHead: React.FC<SEOHeadProps> = ({ tool }) => {
+export const SEOHead: React.FC<SEOHeadProps> = ({ tool, isNotFound = false }) => {
   useEffect(() => {
-    // Single configurable environment variable for production URL switch
+    // Standardized Vite environment variable with safe default fallback
     const rawSiteUrl = 
       (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) ||
-      (typeof import.meta !== 'undefined' && import.meta.env?.NEXT_PUBLIC_SITE_URL) ||
       'https://tektonis.in';
     const siteUrl = rawSiteUrl.replace(/\/+$/, '');
 
-    const siteTitle = tool
-      ? tool.metaTitle
-      : 'Tektonis — Free Online Web & Developer Utilities';
+    let siteTitle: string;
+    let metaDescription: string;
+    let pageUrl: string;
+    let robotsDirective = 'index, follow';
 
-    const metaDescription = tool
-      ? tool.metaDescription
-      : 'Fast, private, and 100% free online utility tools. High-demand converters, formatters, calculators, and generators with zero data tracking on Tektonis.';
+    if (isNotFound) {
+      siteTitle = 'Tool Not Found — Free, Private Utilities | Tektonis';
+      metaDescription = 'The requested tool could not be found. Explore 20+ free, fast, and 100% private developer and utility tools on Tektonis.';
+      pageUrl = `${siteUrl}/`;
+      robotsDirective = 'noindex, nofollow';
+    } else if (tool) {
+      siteTitle = tool.metaTitle;
+      metaDescription = tool.metaDescription;
+      pageUrl = `${siteUrl}/tools/${tool.slug}`;
+    } else {
+      siteTitle = 'Tektonis — Free Online Web & Developer Utilities';
+      metaDescription = 'Fast, private, and 100% free online utility tools. High-demand converters, formatters, calculators, and generators with zero data tracking on Tektonis.';
+      pageUrl = `${siteUrl}/`;
+    }
 
-    const pageUrl = tool ? `${siteUrl}/?tool=${tool.slug}` : `${siteUrl}/`;
     const ogImageUrl = `${siteUrl}/og-image.png`;
 
     // 1. Update document title
@@ -41,6 +52,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ tool }) => {
 
     // 2. Primary Meta Tags
     setMetaTag('name', 'description', metaDescription);
+    setMetaTag('name', 'robots', robotsDirective);
 
     // 3. OpenGraph Social Cards
     setMetaTag('property', 'og:type', 'website');
@@ -74,7 +86,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ tool }) => {
       document.head.appendChild(jsonLdScript);
     }
 
-    if (tool) {
+    if (tool && !isNotFound) {
       const graph: any[] = [
         {
           '@type': 'WebApplication',
@@ -127,7 +139,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ tool }) => {
         '@context': 'https://schema.org',
         '@graph': graph,
       });
-    } else {
+    } else if (!isNotFound) {
       const homeSchema = {
         '@context': 'https://schema.org',
         '@graph': [
@@ -151,8 +163,10 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ tool }) => {
         ],
       };
       jsonLdScript.textContent = JSON.stringify(homeSchema);
+    } else {
+      jsonLdScript.textContent = '';
     }
-  }, [tool]);
+  }, [tool, isNotFound]);
 
   return null;
 };

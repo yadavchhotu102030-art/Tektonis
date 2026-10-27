@@ -184,9 +184,15 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
             const isFav = favorites.includes(tool.id);
 
             return (
-              <div
+              <a
                 key={tool.id}
-                onClick={() => onSelectTool(tool)}
+                href={`/tools/${tool.slug}`}
+                onClick={(e) => {
+                  if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+                    e.preventDefault();
+                    onSelectTool(tool);
+                  }
+                }}
                 className="group relative p-5 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 hover:border-blue-400 dark:hover:border-blue-500 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between"
               >
                 <div>
@@ -212,6 +218,7 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
                     <button
                       type="button"
                       onClick={(e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         onToggleFavorite(tool.id);
                       }}
@@ -255,7 +262,7 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
                     <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>

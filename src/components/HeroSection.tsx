@@ -64,13 +64,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           const target = tools.find((t) => t.id === item.id);
           if (!target) return null;
           return (
-            <button
+            <a
               key={item.id}
-              onClick={() => onSelectTool(target)}
+              href={`/tools/${target.slug}`}
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+                  e.preventDefault();
+                  onSelectTool(target);
+                }
+              }}
               className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-slate-600 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition shadow-2xs text-[11px] font-semibold"
             >
               {item.label}
-            </button>
+            </a>
           );
         })}
       </div>

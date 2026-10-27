@@ -8,20 +8,24 @@
       if (window.location.hostname === 'tektonis.netlify.app') {
         window.location.replace('https://tektonis.in' + window.location.pathname + window.location.search + window.location.hash);
       }
+      // Immediate client redirect for legacy ?tool=<slug> to clean path /tools/<slug>
+      var params = new URLSearchParams(window.location.search);
+      var toolSlug = params.get('tool');
+      if (toolSlug && (window.location.pathname === '/' || window.location.pathname === '')) {
+        window.history.replaceState(null, '', '/tools/' + encodeURIComponent(toolSlug));
+      }
     </script>
     <title>Tektonis — Free Online Web & Developer Utilities</title>
     <meta name="description" content="Fast, private, and 100% free online utility tools. High-demand converters, formatters, calculators, and generators with zero data tracking on Tektonis." />
     <meta name="keywords" content="word counter, json formatter, qr code generator, password generator, image compressor, base64 encoder, case converter, unit converter, diff checker, color picker, developer tools, free online utilities, tektonis" />
     <meta name="author" content="Tektonis" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://tektonis.in/" />
     
     <!-- OpenGraph Social Cards -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tektonis" />
     <meta property="og:title" content="Tektonis — Free Online Web & Developer Utilities" />
     <meta property="og:description" content="Fast, private, and 100% free online utility tools. High-demand converters, formatters, calculators, and generators with zero data tracking on Tektonis." />
-    <meta property="og:url" content="https://tektonis.in/" />
     <meta property="og:image" content="https://tektonis.in/og-image.png" />
     
     <!-- Twitter Social Cards -->

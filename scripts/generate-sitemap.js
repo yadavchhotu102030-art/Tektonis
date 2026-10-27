@@ -7,10 +7,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
 // Read site URL from env or fallback to default
-const rawSiteUrl = 
-  process.env.VITE_SITE_URL || 
-  process.env.NEXT_PUBLIC_SITE_URL || 
-  'https://tektonis.in';
+const rawSiteUrl = process.env.VITE_SITE_URL || 'https://tektonis.in';
 const siteUrl = rawSiteUrl.replace(/\/+$/, '');
 
 // Parse tool slugs from src/tools/registry.ts
@@ -31,7 +28,7 @@ const sitemapEntries = [
     <priority>1.0</priority>
   </url>`,
   ...slugs.map(slug => `  <url>
-    <loc>${siteUrl}/?tool=${slug}</loc>
+    <loc>${siteUrl}/tools/${slug}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -50,7 +47,7 @@ if (!fs.existsSync(publicDir)) {
 }
 
 fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml, 'utf8');
-console.log(`[Sitemap Generator] Generated sitemap.xml with ${slugs.length + 1} URLs at ${siteUrl}`);
+console.log(`[Sitemap Generator] Generated sitemap.xml with ${slugs.length + 1} URLs at ${siteUrl} using clean /tools/<slug> paths`);
 
 // Ensure robots.txt references the sitemap correctly
 const robotsTxt = `User-agent: *

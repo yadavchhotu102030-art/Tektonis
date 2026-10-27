@@ -30,10 +30,9 @@ export const ToolPageLayout: React.FC<ToolPageLayoutProps> = ({
   const handleShare = () => {
     const rawSiteUrl = 
       (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) ||
-      (typeof import.meta !== 'undefined' && import.meta.env?.NEXT_PUBLIC_SITE_URL) ||
       'https://tektonis.in';
     const siteUrl = rawSiteUrl.replace(/\/+$/, '');
-    const url = `${siteUrl}/?tool=${tool.slug}`;
+    const url = `${siteUrl}/tools/${tool.slug}`;
     navigator.clipboard.writeText(url);
     setCopiedShare(true);
     setTimeout(() => setCopiedShare(false), 2000);
@@ -43,14 +42,20 @@ export const ToolPageLayout: React.FC<ToolPageLayoutProps> = ({
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Breadcrumb & Navigation */}
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center justify-between gap-3">
-        <button
-          onClick={onBack}
+        <a
+          href="/"
+          onClick={(e) => {
+            if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+              e.preventDefault();
+              onBack();
+            }
+          }}
           aria-label="Back to all utilities"
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-2xs transition focus:outline-hidden focus:ring-2 focus:ring-blue-500"
         >
           <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Back to All Tools</span>
-        </button>
+        </a>
 
         <div className="flex items-center gap-2">
           {/* Favorite Toggle */}
@@ -297,14 +302,12 @@ export const ToolPageLayout: React.FC<ToolPageLayoutProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {relatedTools.map((rel) => (
-              <div
+              <a
                 key={rel.id}
-                role="button"
-                tabIndex={0}
+                href={`/tools/${rel.slug}`}
                 aria-label={`Open ${rel.name}: ${rel.shortDescription}`}
-                onClick={() => onSelectRelated(rel)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
+                onClick={(e) => {
+                  if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
                     e.preventDefault();
                     onSelectRelated(rel);
                   }
@@ -324,7 +327,7 @@ export const ToolPageLayout: React.FC<ToolPageLayoutProps> = ({
                   <span className="text-[11px] font-medium">Free Utility</span>
                   <span className="text-blue-600 dark:text-blue-400 font-semibold">Open Tool →</span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </section>

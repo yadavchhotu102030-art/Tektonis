@@ -1,6 +1,1 @@
-# 1. 301 Permanent Redirect: Netlify Subdomain -> Primary Domain (force=true with !)
-https://tektonis.netlify.app/* https://tektonis.in/:splat 301!
-http://tektonis.netlify.app/* https://tektonis.in/:splat 301!
-
-# 2. SPA Client-Side Routing Fallback (Netlify & Cloudflare Pages)
 /*    /index.html   200
