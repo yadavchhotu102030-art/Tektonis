@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Star, Share2, ArrowLeft, Check, ChevronDown, ChevronUp, 
+  Star, Share2, ArrowLeft, Check, 
   Sparkles, CheckCircle2, HelpCircle, ShieldCheck, BookOpen, Layers
 } from 'lucide-react';
 import { ToolDefinition } from '../types/tool';
@@ -22,7 +22,6 @@ export const ToolPageLayout: React.FC<ToolPageLayoutProps> = ({
   relatedTools,
   onSelectRelated,
 }) => {
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [copiedShare, setCopiedShare] = useState(false);
 
   const ToolComponent = tool.component;
@@ -244,49 +243,27 @@ export const ToolPageLayout: React.FC<ToolPageLayoutProps> = ({
         </section>
       )}
 
-      {/* FAQ Accordion with semantic markup for Google Rich Snippets */}
+      {/* FAQ Section: Visible <h3>/<p> pairs with semantic markup for Google Rich Snippets */}
       {tool.faqs && tool.faqs.length > 0 && (
-        <section aria-labelledby="faq-heading" className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-4">
-          <div className="flex items-center gap-2">
+        <section aria-labelledby="faq-heading" className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-6">
+          <div className="flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-700">
             <HelpCircle className="w-5 h-5 text-indigo-600 dark:text-indigo-400" aria-hidden="true" />
-            <h2 id="faq-heading" className="text-lg font-bold text-slate-900 dark:text-white">
+            <h2 id="faq-heading" className="text-xl font-bold text-slate-900 dark:text-white">
               Frequently Asked Questions (FAQ)
             </h2>
           </div>
 
-          <div className="divide-y divide-slate-100 dark:divide-slate-700/70 pt-2">
-            {tool.faqs.map((faq, idx) => {
-              const isOpen = openFaqIndex === idx;
-              return (
-                <div key={idx} className="py-3.5">
-                  <button
-                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                    aria-expanded={isOpen}
-                    aria-controls={`faq-answer-${idx}`}
-                    className="w-full flex items-center justify-between text-left gap-4 group focus:outline-hidden focus:text-blue-600"
-                  >
-                    <span className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
-                      {faq.question}
-                    </span>
-                    {isOpen ? (
-                      <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" aria-hidden="true" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" aria-hidden="true" />
-                    )}
-                  </button>
-
-                  {isOpen && (
-                    <div 
-                      id={`faq-answer-${idx}`} 
-                      role="region"
-                      className="pt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed animate-in fade-in duration-150"
-                    >
-                      {faq.answer}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+          <div className="divide-y divide-slate-100 dark:divide-slate-700/70 pt-1">
+            {tool.faqs.map((faq, idx) => (
+              <div key={idx} className="py-4 first:pt-2">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                  {faq.question}
+                </h3>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
       )}

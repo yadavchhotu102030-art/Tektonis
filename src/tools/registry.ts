@@ -388,6 +388,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'ArrowRightLeft',
     component: CaseConverter,
     relatedToolIds: ['word-counter', 'lorem-ipsum-generator', 'markdown-converter'],
+    explainer: {
+      title: 'Case Converter: Change Text Casing & URL Slugs Instantly',
+      whatItDoes:
+        'Accidentally leaving Caps Lock on, formatting headlines for an editorial submission, or converting multi-word variable names for software development can take minutes of manual retyping. The Tektonis Case Converter transforms your text across 12 distinct casing conventions in a single click. It instantly converts strings into UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case URL slugs, CONSTANT_CASE, and Dot.notation.',
+      howItWorks:
+        'The conversion engine splits input strings into individual words by detecting spaces, punctuation marks, hyphens, underscores, and existing camelCase capitalizations using Unicode-aware regular expressions. Once tokenized into words, it applies grammatical capitalization rules. For Title Case, it capitalizes the first letter of each significant word. For developer naming conventions like camelCase and kebab-case, it formats the transitions cleanly, stripping accents and converting spaces to hyphens or underscores to produce valid programming identifiers and URL slugs.',
+      whenToUse: [
+        'Fixing text accidentally typed with Caps Lock enabled without retyping the entire paragraph.',
+        'Formatting book titles, blog headlines, and press release titles according to standard Title Case rules.',
+        'Generating clean, SEO-friendly kebab-case URL slugs from article titles for web development and CMS publishing.',
+        'Converting database column names, API payload keys, and variable names between camelCase, snake_case, and CONSTANT_CASE.',
+      ],
+      clientSideBenefit:
+        'Text pasted into case converters often includes proprietary code, customer names, private email drafts, or unreleased product names. Tektonis executes every casing transformation locally in your browser memory. We never log, store, or transmit your text over the internet.',
+    },
     features: [
       'Supports 12 formatting styles including Title Case, Sentence case, and slugify',
       'Instant live preview of all casing variations simultaneously',
@@ -401,8 +416,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'What is kebab-case and why is it good for SEO?',
-        answer: 'Kebab-case uses hyphens to separate lowercase words (e.g., best-seo-tools). Google explicitly recommends hyphens over underscores in website URLs for optimal indexing.',
+        question: 'What is the difference between kebab-case and snake_case?',
+        answer: 'Kebab-case separates lowercase words with hyphens (e.g., user-profile-page), making it standard for web URLs and CSS classes. Snake_case separates lowercase words with underscores (e.g., user_profile_page), which is standard in Python, SQL databases, and file names.',
+      },
+      {
+        question: 'Why does Google recommend kebab-case for website URLs?',
+        answer: 'Google\'s search indexing algorithms treat hyphens as natural word separators, allowing search crawlers to recognize individual keywords within URLs. Underscores are not treated as separators, meaning best_seo_tools may be read as a single unsegmented string.',
+      },
+      {
+        question: 'How does Title Case capitalization work in this tool?',
+        answer: 'Title Case capitalizes the initial letter of every principal word while keeping small conjunctions and prepositions readable, making it ideal for blog post titles, academic papers, and YouTube video headlines.',
+      },
+      {
+        question: 'Can I convert text that already contains underscores or hyphens into regular sentences?',
+        answer: 'Yes, the tokenizer automatically identifies delimiters like underscores, hyphens, and camelCase transitions, allowing you to convert code variables back into natural, readable English sentences.',
+      },
+      {
+        question: 'Is there any limit to the amount of text I can convert at once?',
+        answer: 'No, the local client-side processing can handle large documents, essay drafts, or lists of hundreds of database keys in milliseconds without browser lag.',
       },
     ],
   },
@@ -423,6 +454,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Binary',
     component: Base64Tool,
     relatedToolIds: ['json-formatter', 'image-compressor', 'diff-checker'],
+    explainer: {
+      title: 'Base64 Encoder & Decoder: Text, Binary & Image Data URLs',
+      whatItDoes:
+        'Encoding data into Base64 format is a fundamental task in web development, API communication, and email transmission. The Tektonis Base64 Tool provides an all-in-one workstation to encode text to Base64, decode Base64 back into plain text, and convert image files (PNG, JPG, SVG, WebP) into inline Base64 Data URLs ready for direct embedding into HTML <img> tags or CSS background-image properties.',
+      howItWorks:
+        'Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format by translating it into radix-64 representation. Standard browser functions like btoa() and atob() fail when encountering non-ASCII or multibyte Unicode characters (such as emojis or accented foreign characters). Tektonis solves this by passing UTF-8 strings through a Uint8Array buffer and TextEncoder/TextDecoder pipeline, ensuring UTF-8 encoding without corrupted characters. For images, a client-side FileReader reads the binary buffer and prepends the correct MIME-type data URI header.',
+      whenToUse: [
+        'Inlining small logo icons, SVG graphics, or loading spinners directly into CSS or HTML to reduce HTTP network requests.',
+        'Decoding Base64-encoded strings found in authorization headers (Basic Auth), JWT tokens, and webhooks.',
+        'Encoding binary credentials, certificates, or tracking strings for transmission through JSON payloads and email clients.',
+        'Inspecting and validating corrupted or malformed Base64 data strings with real-time error detection.',
+      ],
+      clientSideBenefit:
+        'Base64 strings often contain confidential API credentials, secret keys, private authentication headers, or sensitive user documents. On Tektonis, all encoding and decoding runs 100% inside your browser session. No data strings or images are ever uploaded to remote servers or logged in telemetry.',
+    },
     features: [
       'Unicode and UTF-8 safe text encoding and decoding',
       'Drag-and-drop image to Base64 Data URL converter',
@@ -436,8 +482,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'Why should I use Base64 for images in CSS or HTML?',
-        answer: 'Inlining small icons or logos as Base64 Data URLs eliminates HTTP requests, which can improve perceived render time and Core Web Vitals for critical above-the-fold assets.',
+        question: 'Why should I convert small images to Base64 Data URLs for web development?',
+        answer: 'Embedding small icons, SVGs, or graphics directly into HTML or CSS as Base64 Data URLs eliminates separate HTTP network requests. This can improve perceived page load speed and Core Web Vitals for critical above-the-fold assets.',
+      },
+      {
+        question: 'Does this Base64 tool properly support UTF-8 characters and emojis?',
+        answer: 'Yes, our encoder uses a modern TextEncoder and Uint8Array pipeline that fully supports Unicode, foreign languages, accented letters, and emojis without throwing the common \'Latin1 range\' error found in basic utilities.',
+      },
+      {
+        question: 'How much larger is a Base64-encoded string compared to the original binary file?',
+        answer: 'Base64 encoding increases data size by approximately 33% because it uses 4 ASCII characters to represent every 3 bytes of binary data. For this reason, inlining is recommended primarily for smaller assets (under 10 KB to 20 KB).',
+      },
+      {
+        question: 'Can I decode Base64 strings that contain padding with \'=\' characters?',
+        answer: 'Yes, the decoder automatically handles standard Base64 padding characters (=) as well as unpadded Base64 strings, decoding them accurately into plain text.',
+      },
+      {
+        question: 'Are my files or encoded passwords stored or uploaded to any server?',
+        answer: 'No, every conversion happens locally within your web browser. Neither your plain text nor your generated Base64 strings are ever transmitted over the network.',
       },
     ],
   },
@@ -458,6 +520,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Pipette',
     component: ColorConverter,
     relatedToolIds: ['box-shadow-generator', 'image-compressor', 'qr-code-generator'],
+    explainer: {
+      title: 'Color Converter: HEX, RGB, HSL & WCAG Contrast Checker',
+      whatItDoes:
+        'Designers and frontend developers frequently have to convert colors between hexadecimal codes, CSS RGB functions, and HSL values, while ensuring text meets digital accessibility guidelines. The Tektonis Color Converter translates colors across HEX, RGB, HSL, HSV, and CMYK in real time. It features an interactive color picker with native eyedropper support, evaluates Web Content Accessibility Guidelines (WCAG 2.1) contrast ratios against light and dark backgrounds, and generates complementary, analogous, and triadic color palettes.',
+      howItWorks:
+        'The converter parses color strings into normalized 8-bit RGB channels (red, green, blue values from 0 to 255). From those base channels, it computes hue, saturation, lightness (HSL), and subtractive CMYK ink percentages using standard color space matrices. The contrast engine calculates relative luminance using the formula L = 0.2126 * R + 0.7152 * G + 0.0722 * B (after gamma expansion), evaluating the ratio against pure white and pure black to rate compliance for WCAG AA (4.5:1) and WCAG AAA (7:1) standards.',
+      whenToUse: [
+        'Converting brand HEX color codes into RGB or HSL strings for CSS, Tailwind, or Figma styles.',
+        'Auditing button and text color contrast to ensure web pages pass WCAG 2.1 accessibility audits.',
+        'Generating matching color palettes for UI component states, charts, and illustrations.',
+        'Translating digital RGB screen colors to CMYK approximations for print design mockups.',
+      ],
+      clientSideBenefit:
+        'Color conversions execute instantaneously with sub-millisecond local math in your browser. No requests are sent over the network, providing high-speed eyedropper and slider response without third-party tracking.',
+    },
     features: [
       'Bidirectional conversion between HEX, RGB, HSL, HSV, and CMYK',
       'Live WCAG 2.1 contrast ratio calculation for AA and AAA compliance',
@@ -471,8 +548,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'What contrast ratio is required for WCAG AA compliance?',
-        answer: 'WCAG 2.1 AA requires a contrast ratio of at least 4.5:1 for normal body text and at least 3:1 for large text (18pt or 14pt bold).',
+        question: 'What contrast ratio is required for WCAG AA and AAA accessibility compliance?',
+        answer: 'WCAG 2.1 Level AA requires a minimum contrast ratio of 4.5:1 for regular body text and 3:1 for large text (18pt or 14pt bold). Level AAA requires 7:1 for normal text and 4.5:1 for large text.',
+      },
+      {
+        question: 'Why is HSL often preferred over HEX and RGB in modern web development?',
+        answer: 'HSL (Hue, Saturation, Lightness) aligns with human color perception. You can easily create hover states, active states, and dark mode variations simply by adjusting the lightness percentage while keeping the hue constant.',
+      },
+      {
+        question: 'Can I use the browser eyedropper tool to sample colors from my screen?',
+        answer: 'Yes, if your browser supports the native EyeDropper API (Chrome, Edge, Opera), clicking the eyedropper icon lets you pick any color directly from your screen or images.',
+      },
+      {
+        question: 'How accurate is the CMYK conversion for commercial print design?',
+        answer: 'Digital screens display RGB light while commercial printing presses mix CMYK inks. Our mathematical conversion gives a close approximation, but physical print production should always be verified against calibrated Pantone swatches.',
+      },
+      {
+        question: 'What do the Complementary, Analogous, and Triadic palette suggestions mean?',
+        answer: 'Complementary colors sit opposite each other on the color wheel for high contrast. Analogous colors sit adjacent for serene harmony. Triadic colors are evenly spaced around the wheel for vibrant, balanced diversity.',
       },
     ],
   },
@@ -493,6 +586,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Link2',
     component: UtmBuilder,
     relatedToolIds: ['qr-code-generator', 'meta-tag-generator', 'case-converter'],
+    explainer: {
+      title: 'UTM Campaign URL Builder & Query String Tool',
+      whatItDoes:
+        'Running marketing campaigns without tracking tags leaves you blind to where your traffic, signups, and sales originate. The Tektonis UTM Builder constructs standardized, trackable campaign URLs for Google Analytics 4 (GA4), Mixpanel, and marketing dashboards. Fill in your landing page address, select quick presets for Google Ads, Facebook, Twitter, LinkedIn, or newsletters, and watch your clean, error-free campaign link generate in real time.',
+      howItWorks:
+        'UTM (Urchin Tracking Module) parameters are standardized query string keys appended to website URLs. When a visitor clicks your link, Google Analytics reads these keys: utm_source (platform like google or newsletter), utm_medium (channel type like cpc or email), utm_campaign (name of promotion), utm_term (paid search keywords), and utm_content (A/B testing variant or button location). Our builder sanitizes your inputs, strips unwanted spaces, properly encodes special characters, and appends the query string cleanly.',
+      whenToUse: [
+        'Tagging marketing links across Facebook Ads, Google Ads, LinkedIn posts, and sponsored newsletter placements.',
+        'Conducting A/B split tests to identify which email button or banner graphic drives higher conversion rates.',
+        'Tracking referral traffic from influencer partnerships, affiliate programs, and podcast sponsorships.',
+        'Encoding or decoding percent-encoded query strings and URI components with the built-in URL encoder.',
+      ],
+      clientSideBenefit:
+        'Marketing campaigns often involve confidential launch URLs, private internal campaign names, or sensitive discount parameters. Tektonis builds your URLs entirely in client-side JavaScript. No campaign names, URLs, or client parameters are ever dispatched to external servers or logged in telemetry.',
+    },
     features: [
       'Supports all standard parameters: utm_source, utm_medium, utm_campaign, utm_term, utm_content',
       'Quick platform presets for Google Ads, Facebook, Twitter, LinkedIn, and Newsletters',
@@ -506,8 +614,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'Why are UTM parameters important for digital marketing?',
-        answer: 'UTM tags allow Google Analytics and CRM tools to attribute user traffic, conversions, and revenue to specific ads, social posts, and email newsletters with high accuracy.',
+        question: 'What are the required UTM parameters for Google Analytics tracking?',
+        answer: 'The three core parameters required for clean attribution in Google Analytics 4 are utm_source (the referrer, e.g. \'newsletter\'), utm_medium (the marketing channel, e.g. \'email\'), and utm_campaign (the promotion name, e.g. \'spring_sale\').',
+      },
+      {
+        question: 'Why should I use lowercase letters and underscores in UTM campaign parameters?',
+        answer: 'Google Analytics is case-sensitive, meaning \'Facebook\', \'facebook\', and \'FACEBOOK\' will appear as three separate traffic sources. Using strictly lowercase letters and underscores or hyphens prevents fragmented data.',
+      },
+      {
+        question: 'What is the difference between utm_term and utm_content?',
+        answer: 'utm_term is typically used to identify paid search keywords in Google Ads or Bing Ads campaigns. utm_content is used for A/B testing and content-targeted ads to distinguish between two links pointing to the same URL (e.g. \'header_button\' vs \'footer_link\').',
+      },
+      {
+        question: 'Does adding UTM parameters affect my website\'s Google SEO rankings?',
+        answer: 'No, Google\'s search crawlers recognize standard UTM tracking parameters and typically ignore them when indexing pages, provided your website uses proper canonical <link rel=\'canonical\'> tags pointing to the clean base URL.',
+      },
+      {
+        question: 'Can I combine this tool with the QR Code Generator?',
+        answer: 'Yes! After generating your trackable campaign URL, you can copy it directly into our free QR Code Generator to create trackable print flyers, business cards, and exhibition banners.',
       },
     ],
   },
@@ -528,6 +652,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Clock',
     component: EpochConverter,
     relatedToolIds: ['age-calculator', 'base64-tool', 'json-formatter'],
+    explainer: {
+      title: 'Unix Epoch Timestamp Converter: Milliseconds, Seconds & UTC',
+      whatItDoes:
+        'Software systems, databases, cloud logs, and APIs almost universally store time as raw integers known as Unix timestamps. Staring at an integer like 1735689600 makes it impossible to tell what calendar date or time of day it represents without doing mental gymnastics. The Tektonis Epoch Converter translates between Unix epoch timestamps and human-readable dates in real time. It features a live ticking current timestamp clock, parses timestamps in seconds, milliseconds, and microseconds, and formats dates into both your local device timezone and Greenwich Mean Time (UTC).',
+      howItWorks:
+        'Unix epoch time counts the continuous number of seconds that have elapsed since the Unix epoch moment: 00:00:00 UTC on January 1, 1970 (excluding leap seconds). When you paste an integer, our parser determines its magnitude: 10 digits denote seconds, 13 digits denote milliseconds, and 16 digits denote microseconds. It passes the value through the native JavaScript Date object to extract ISO 8601 formatting, RFC 2822 timestamps, and localized date strings. In reverse, selecting any date and time generates the exact corresponding epoch integer instantaneously.',
+      whenToUse: [
+        'Debugging database timestamps, server access logs, and Docker container output during incident analysis.',
+        'Translating JSON API responses from services like Stripe, AWS, and Twitter that return epoch timestamps.',
+        'Generating expiration timestamps for JSON Web Tokens (JWT), session cookies, and OAuth authentication flows.',
+        'Converting log entries across differing international timezones into UTC for standardized audit reports.',
+      ],
+      clientSideBenefit:
+        'Server logs and API timestamps often contain confidential activity intervals or system uptime details. Tektonis computes all timestamp conversions entirely on your computer. No timestamps, dates, or IP locations are ever sent to our servers or saved in history.',
+    },
     features: [
       'Live ticking current Unix timestamp in seconds and milliseconds',
       'Bidirectional conversion: Timestamp to Date and Date to Timestamp',
@@ -541,8 +680,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'What is Unix Epoch time?',
-        answer: 'Unix epoch time is the number of seconds that have elapsed since January 1, 1970 00:00:00 UTC, widely used across databases, operating systems, and APIs.',
+        question: 'What is Unix epoch time and why is January 1, 1970 the starting point?',
+        answer: 'Unix epoch time is a universal system for tracking time as a single running count of elapsed seconds. January 1, 1970 UTC was arbitrarily selected by Unix engineers in the early 1970s as a convenient, standardized reference point for computer operating systems.',
+      },
+      {
+        question: 'How do I know if my timestamp is in seconds, milliseconds, or microseconds?',
+        answer: 'Count the digits of your integer: a 10-digit number is in seconds (e.g., 1735689600), a 13-digit number is in milliseconds (e.g., 1735689600000), and a 16-digit number is in microseconds. Our tool automatically detects the scale for you.',
+      },
+      {
+        question: 'What will happen in the year 2038 (the Year 2038 Problem)?',
+        answer: 'Older 32-bit Unix systems store epoch seconds as a signed 32-bit integer, which will overflow on January 19, 2038. Modern 64-bit operating systems and JavaScript use 64-bit integers, safely extending timestamp capabilities for billions of years.',
+      },
+      {
+        question: 'Does the converter account for daylight saving time (DST) and leap seconds?',
+        answer: 'Yes, when converting to your local device timezone, the browser automatically applies your region\'s local daylight saving time rules. Standard Unix time intentionally ignores leap seconds, ensuring each day has exactly 86,400 seconds.',
+      },
+      {
+        question: 'Can I convert future dates or dates before 1970?',
+        answer: 'Yes, modern dates well into the future produce positive integers, while dates prior to January 1, 1970 produce negative epoch integers that are parsed accurately.',
       },
     ],
   },
@@ -563,6 +718,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Ruler',
     component: UnitConverter,
     relatedToolIds: ['percentage-calculator', 'bmi-calculator', 'color-converter'],
+    explainer: {
+      title: 'Unit Converter: Fast Metric and Imperial Conversions',
+      whatItDoes:
+        'Converting measurements between different systems should not require searching through conversion tables or doing long division. The Tektonis Unit Converter translates measurements instantly across length, weight, temperature, digital data storage, and speed. Whether you are baking with grams and ounces, working on a construction project with feet and meters, calculating road speeds between miles per hour and kilometers per hour, or checking file sizes from megabytes to gigabytes, this tool gives you all matching units at the same time.',
+      howItWorks:
+        'Under the hood, the converter normalizes any input value into an international standard base unit first—such as meters for length, kilograms for mass, and Celsius or Kelvin for temperature. From that single normalized base, it applies high-precision floating-point conversion ratios to derive every other compatible unit simultaneously. For digital storage, it uses the standard binary computing convention where one kilobyte equals 1,024 bytes and one megabyte equals 1,024 kilobytes, eliminating rounding discrepancies when managing hard drives and server memory.',
+      whenToUse: [
+        'Translating international recipes between ounces, grams, pounds, and kilograms.',
+        'Converting architectural dimensions, running distances, or fabric measurements between metric and imperial systems.',
+        'Calculating computer storage upgrades and cloud bandwidth limits between megabytes, gigabytes, and terabytes.',
+        'Checking international weather forecasts, oven temperatures, or scientific data across Celsius, Fahrenheit, and Kelvin.',
+      ],
+      clientSideBenefit:
+        'All math runs straight inside your browser using standard JavaScript arithmetic. No numbers, notes, or values are sent to any remote server or third party. You can convert private engineering data, confidential shipment weights, or personal fitness measurements with complete privacy.',
+    },
     features: [
       '5 core categories: Length, Weight, Temperature, Digital Storage, and Speed',
       'Instant bidirectional conversion across all units simultaneously',
@@ -576,8 +746,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'Does this use binary (1024) or decimal (1000) for storage?',
-        answer: 'Digital storage uses the standard computing binary convention (1 KB = 1024 Bytes, 1 MB = 1024 KB, etc.).',
+        question: 'Is this unit converter accurate for engineering and scientific work?',
+        answer: 'Yes, conversions use high-precision floating-point constants based on NIST and international SI standards. Results are rounded to four decimal places for clear reading while preserving calculation fidelity.',
+      },
+      {
+        question: 'Does the digital storage calculator use 1,024 or 1,000 bytes per kilobyte?',
+        answer: 'It uses the standard binary convention of 1,024 bytes (IEC standard) used by operating systems like Windows and Linux. One kilobyte equals 1,024 bytes, and one megabyte equals 1,024 kilobytes.',
+      },
+      {
+        question: 'How does the temperature converter handle negative numbers and absolute zero?',
+        answer: 'The temperature formulas support both positive and negative values across Celsius, Fahrenheit, and Kelvin. Negative inputs correctly map to their reciprocal temperatures, honoring absolute zero (-273.15°C or 0 Kelvin).',
+      },
+      {
+        question: 'Can I convert between different measurement families, like weight to volume?',
+        answer: 'No, units can only convert within their physical dimension (e.g. length to length, mass to mass). Converting mass to volume requires knowing the specific density of the substance, which varies widely.',
+      },
+      {
+        question: 'Does this unit converter work offline if I lose internet access?',
+        answer: 'Yes, because the conversion formulas and interface are stored entirely in your browser memory after initial load, you can keep converting measurements even without an active internet connection.',
       },
     ],
   },
@@ -598,6 +784,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Split',
     component: DiffChecker,
     relatedToolIds: ['json-formatter', 'markdown-converter', 'word-counter'],
+    explainer: {
+      title: 'Diff Checker: Side-by-Side Text and Code Comparison',
+      whatItDoes:
+        'Spotting small differences between two drafts or code files by eye is tedious and error-prone. The Tektonis Diff Checker compares two snippets of text, configuration blocks, or programming code line by line and character by character. It highlights newly added text in green, removed lines in red, and calculates an overall similarity percentage so you immediately know how much of your document has changed.',
+      howItWorks:
+        'Our engine uses an optimized Longest Common Subsequence (LCS) algorithm, similar to the diff algorithm used by Git and version control systems. When you paste your original and revised texts, the parser breaks them down into ordered tokens, identifies unchanged anchor lines, and computes the shortest edit path required to transform the first text into the second. You can toggle between a side-by-side Split View for broad visual contrast and a Unified View for scrolling through changes in a single column.',
+      whenToUse: [
+        'Comparing two drafts of an essay, contract, or blog post to review edits and catch accidental deletions.',
+        'Auditing source code modifications, JSON configurations, SQL queries, or CSS rules before pushing a release.',
+        'Checking for plagiarism or assessing the similarity ratio between two student submissions or articles.',
+        'Verifying server environment files (.env) or API responses to locate unexpected configuration discrepancies.',
+      ],
+      clientSideBenefit:
+        'Comparing sensitive documents like legal contracts, private emails, customer records, or proprietary source code on public web tools often risks exposing private data to third-party logging. Tektonis processes every line of text locally in your browser memory. Nothing is uploaded, stored in a database, or transmitted over the network.',
+    },
     features: [
       'Longest Common Subsequence (LCS) algorithm for accurate difference mapping',
       'Clear color-coded highlights: green for additions, red for deletions',
@@ -611,8 +812,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'Can I use this for code diffs?',
-        answer: 'Yes! It handles code snippets in Python, JavaScript, HTML, CSS, SQL, JSON, and plain prose equally well.',
+        question: 'Does this diff checker upload or store my confidential documents or code?',
+        answer: 'No, the comparison runs completely in your web browser. Neither your original text nor your modified text ever leaves your computer, making it safe for proprietary code, NDAs, and legal agreements.',
+      },
+      {
+        question: 'What is the difference between Split View and Unified View?',
+        answer: 'Split View places the original text on the left and the modified text on the right side-by-side, making structural changes easy to see. Unified View combines both into a single chronological stream, which is ideal on narrower screens.',
+      },
+      {
+        question: 'How is the similarity percentage calculated?',
+        answer: 'The similarity percentage measures the ratio of identical characters to the total character count across both texts. An identical match shows 100%, while completely unrelated content approaches 0%.',
+      },
+      {
+        question: 'Can I compare code from languages like Python, JavaScript, and HTML?',
+        answer: 'Yes, the algorithm treats all inputs as raw Unicode text. It accurately compares indentation, punctuation, curly braces, and syntax across all programming and markup languages.',
+      },
+      {
+        question: 'Is there a limit on how long the compared texts can be?',
+        answer: 'Because computation happens locally using your device CPU and RAM, you can compare documents with thousands of lines without hitting server timeouts or file upload caps.',
       },
     ],
   },
@@ -633,6 +850,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Search',
     component: MetaTagGenerator,
     relatedToolIds: ['utm-builder', 'qr-code-generator', 'word-counter'],
+    explainer: {
+      title: 'SEO Meta Tag Generator & Live Google SERP Simulator',
+      whatItDoes:
+        'Writing good meta tags is one of the highest-leverage tasks in search engine optimization, but exceeding character limits causes Google to truncate your headlines. The Tektonis Meta Tag Generator helps you write, test, and generate complete HTML <head> tags for your web pages. It includes real-time character counters for titles and descriptions, simulates exactly how your page will appear in Google desktop and mobile search results, and creates OpenGraph and Twitter Cards for social media sharing.',
+      howItWorks:
+        'Search engines allocate a fixed visual pixel width (typically ~600 pixels on desktop) for search snippets. Our generator monitors your character count in real time, alerting you when titles exceed 60 characters or descriptions fall outside the optimal 140 to 160 character window. It simultaneously formats standard HTML <meta> tags, OpenGraph properties (og:title, og:description, og:image, og:url), and Twitter Card tags (twitter:card), allowing you to copy the entire code block in a single click.',
+      whenToUse: [
+        'Writing compelling, untruncated meta titles and descriptions for new blog posts, landing pages, and product pages.',
+        'Configuring social media preview cards so your links display rich thumbnails on X, LinkedIn, Facebook, and Slack.',
+        'Standardizing <head> tags across client websites to ensure canonical URLs and robots meta tags are correctly formatted.',
+        'Previewing how Google search snippets will look on mobile devices and desktop screens before publishing.',
+      ],
+      clientSideBenefit:
+        'Your unreleased campaign headlines, proprietary website URLs, and draft copy remain completely private. The generator runs 100% inside your browser session, with zero data saved to databases or transmitted across third-party marketing proxies.',
+    },
     features: [
       'Character length guides for Title (30–60 chars) and Description (120–160 chars)',
       'Live Google Search Result Snippet preview',
@@ -647,8 +879,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'Why does Google truncate meta descriptions?',
-        answer: 'Google search snippets typically display around 155 to 160 characters on desktop and slightly less on mobile. Keeping your description within 120–160 characters prevents cutoffs.',
+        question: 'Why does Google truncate meta titles and descriptions in search results?',
+        answer: 'Google allocates a maximum display width of approximately 600 pixels for search headlines on desktop screens. If your title exceeds roughly 60 characters or your description exceeds roughly 160 characters, Google cuts off the text with an ellipsis (\'...\').',
+      },
+      {
+        question: 'What are OpenGraph (OG) tags and why are they necessary?',
+        answer: 'OpenGraph tags are meta protocols originally created by Facebook that dictate how a webpage appears when shared on social networks like LinkedIn, Facebook, and Discord. They define the preview title, description summary, and thumbnail image.',
+      },
+      {
+        question: 'Where should I paste the generated meta tags in my website code?',
+        answer: 'Paste the generated HTML snippet inside the <head> section of your webpage HTML document, above the closing </head> tag.',
+      },
+      {
+        question: 'Does having keywords in my meta description directly improve Google rankings?',
+        answer: 'Google does not use the meta description as a direct ranking factor. However, a persuasive description with relevant keywords dramatically increases organic click-through rate (CTR), which is a powerful indirect ranking signal.',
+      },
+      {
+        question: 'What is the recommended dimensions for an OpenGraph (og:image) thumbnail?',
+        answer: 'The recommended size for an OpenGraph social sharing image is 1200 x 630 pixels (a 1.91:1 aspect ratio), which displays sharply across high-density mobile and desktop displays.',
       },
     ],
   },
@@ -669,6 +917,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Layers',
     component: LoremIpsumGenerator,
     relatedToolIds: ['word-counter', 'case-converter', 'markdown-converter'],
+    explainer: {
+      title: 'Lorem Ipsum Generator: Clean Placeholder Dummy Text',
+      whatItDoes:
+        'When designing a website layout, prototype, or print brochure, using actual copy can distract reviewers from typography, visual hierarchy, and spatial balance. The Tektonis Lorem Ipsum Generator produces clean, natural-looking Latin dummy text sized exactly for your mockups. You can generate paragraphs, sentences, individual words, or bulleted lists, and optionally wrap the output in semantic HTML paragraph or list tags ready to paste into your codebase.',
+      howItWorks:
+        'The generator samples authentic passages derived from Marcus Tullius Cicero\'s philosophical treatise "De Finibus Bonorum et Malorum" written in 45 BC. A linguistic shuffling algorithm constructs varied, grammatically plausible sentences with randomized word lengths and punctuation spacing, mimicking natural European language rhythm. You can choose whether to start with the classic "Lorem ipsum dolor sit amet..." opening phrase or generate completely randomized placeholder text.',
+      whenToUse: [
+        'Filling wireframes, Figma components, and UI mockups before final editorial copy is ready.',
+        'Testing typographic line heights, column widths, and responsive font scaling in CSS stylesheets.',
+        'Generating realistic dummy content for CMS database seeding, staging sites, and template previews.',
+        'Formatting newsletter layouts, print flyers, and product packaging drafts for stakeholder reviews.',
+      ],
+      clientSideBenefit:
+        'Unlike slow placeholder generators loaded down with third-party tracking scripts, popups, and ads, Tektonis runs instantly in your browser. All text is created on the fly with zero network requests, zero cookies, and complete client-side reliability.',
+    },
     features: [
       'Generate by Paragraphs, Sentences, Words, or Bullet lists',
       'Optional HTML tags formatting (<p>, <li>)',
@@ -682,8 +945,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'What is the origin of Lorem Ipsum?',
-        answer: 'Lorem Ipsum is derived from sections of Cicero\'s work "De Finibus Bonorum et Malorum" written in 45 BC. It has been used as the typesetting industry\'s standard placeholder text since the 1500s.',
+        question: 'Where does the traditional Lorem Ipsum text come from?',
+        answer: 'Lorem Ipsum originated from sections 1.10.32 and 1.10.33 of Cicero\'s work "De Finibus Bonorum et Malorum" (On the Extremes of Good and Evil), composed in 45 BC. Typesetters in the 1500s scrambled the Latin text to create sample font specimen sheets.',
+      },
+      {
+        question: 'Why is placeholder Latin text preferred over typing repetitive English words?',
+        answer: 'English words carry immediate semantic meaning that draws the reader\'s attention to what the text says rather than how the design looks. Latin placeholder text has an even distribution of letters, providing a realistic look without distracting from the visual layout.',
+      },
+      {
+        question: 'Can I generate HTML markup like <p> and <li> tags automatically?',
+        answer: 'Yes, simply toggle the HTML tags switch. The generator wraps each paragraph in <p> tags or formats list items with <ul> and <li> elements, so you can paste clean markup directly into your HTML or React templates.',
+      },
+      {
+        question: 'Does the text repeat identical sentences if I generate many paragraphs?',
+        answer: 'The generator draws from an extensive lexicon of classical Latin vocabulary, varying sentence lengths, commas, and periods to produce natural-looking paragraphs that avoid obvious repetitive patterns.',
+      },
+      {
+        question: 'Is the generated Lorem Ipsum text free to use for commercial projects?',
+        answer: 'Yes, all generated placeholder text is in the public domain and 100% free for both personal and commercial use in websites, graphic designs, apps, and print materials.',
       },
     ],
   },
@@ -704,6 +983,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Calendar',
     component: AgeCalculator,
     relatedToolIds: ['percentage-calculator', 'bmi-calculator', 'epoch-converter'],
+    explainer: {
+      title: 'Age Calculator: Exact Chronological Age & Birthday Breakdown',
+      whatItDoes:
+        'Knowing your age in simple years is easy, but finding the exact number of months, weeks, days, hours, and minutes you have lived requires complex calendar math. The Tektonis Age Calculator calculates your precise chronological age based on your date of birth. It also shows a real-time countdown to your next birthday, the day of the week you were born, your astrological zodiac sign, and can calculate the exact time difference between any two calendar dates.',
+      howItWorks:
+        'Calendar math is notoriously tricky because months have differing day counts (28, 29, 30, or 31 days) and leap years add an extra day every four years. Our calculator evaluates the exact calendar offsets between the starting date and end date, taking into account Gregorian leap year rules and calendar month boundaries. It accurately calculates the remaining months and days, then multiplies the completed intervals into total accumulated days, hours, and minutes for a comprehensive lifespan timeline.',
+      whenToUse: [
+        'Determining exact legal eligibility for school admissions, government exams, driving permits, or retirement benefits.',
+        'Tracking developmental milestones and month-by-month age updates for infants and toddlers.',
+        'Counting down the exact days, hours, and minutes until an upcoming birthday, anniversary, or retirement date.',
+        'Calculating the exact duration between two historical events, employment tenures, or project timelines.',
+      ],
+      clientSideBenefit:
+        'Your date of birth is personally identifiable information (PII) commonly used in identity verification. Many commercial online age calculators collect birthdays for user profiling or advertising. On Tektonis, every calculation runs locally inside your browser. No birth dates, names, or timestamps are ever sent to our servers or stored in cookies.',
+    },
     features: [
       'Chronological age calculation in years, months, days, hours, and seconds',
       'Next birthday countdown and day-of-week birth analysis',
@@ -719,8 +1013,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'How is exact age calculated with leap years?',
-        answer: 'The calculator accounts for leap years and the varying number of days in each calendar month to give mathematically exact year, month, and day durations.',
+        question: 'How does the age calculator accurately handle leap years?',
+        answer: 'The calculator checks whether each year in the calculated span is a leap year (divisible by 4, except for century years not divisible by 400). It counts February 29th accurately so your exact age in days is mathematically correct.',
+      },
+      {
+        question: 'Can I calculate my age on a specific past or future date?',
+        answer: 'Yes, by default the tool calculates your age as of today, but you can change the target date to any past or future day to see how old you were or will be on a specific milestone.',
+      },
+      {
+        question: 'Why does my age in months and days vary depending on the calendar month?',
+        answer: 'Because calendar months have differing lengths (ranging from 28 to 31 days), the calculator computes whole completed calendar months first and then calculates the remaining days based on the specific month being traversed.',
+      },
+      {
+        question: 'Is my date of birth saved, logged, or shared?',
+        answer: 'No, your birth date is processed only within your browser\'s active session memory. Nothing is sent to our servers, saved in a database, or tracked across visits.',
+      },
+      {
+        question: 'How does the birthday countdown work?',
+        answer: 'The countdown identifies your next birthday in the current or upcoming calendar year and calculates the precise number of months, days, and hours remaining until that date arrives.',
       },
     ],
   },
@@ -741,6 +1051,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Percent',
     component: PercentageCalculator,
     relatedToolIds: ['loan-calculator', 'unit-converter', 'age-calculator'],
+    explainer: {
+      title: 'Percentage Calculator: Instant Ratios, Changes, & Discounts',
+      whatItDoes:
+        'Percentage calculations are part of everyday life, whether you are calculating tips at dinner, figuring out sales tax, determining salary raises, or checking shopping discounts. The Tektonis Percentage Calculator combines four essential tools into one interface: find what X% of Y is, determine what percentage one number is of another, measure percentage increase or decrease between two values, and calculate shopping sale prices with exact savings.',
+      howItWorks:
+        'The calculator applies standard mathematical formulas in real time as you type. For basic percentages, it evaluates (X / 100) * Y. For ratios, it computes (X / Y) * 100. For percentage change, it calculates ((New Value - Old Value) / Old Value) * 100, distinguishing between percentage growth (positive) and percentage decline (negative). For retail discounts, it subtracts the discounted amount from the original sticker price and displays both the final cost and the total cash saved.',
+      whenToUse: [
+        'Calculating retail discounts, seasonal sale markdowns, and sales tax while shopping.',
+        'Measuring business metrics like month-over-month revenue growth, churn rate, or website traffic changes.',
+        'Figuring out grades, exam percentages, and GPA weighting for academic coursework.',
+        'Splitting restaurant bills, calculating tips, and estimating loan interest rate adjustments.',
+      ],
+      clientSideBenefit:
+        'Whether you are working with private business revenue, personal budget numbers, or confidential financial plans, Tektonis runs 100% in your browser. No numbers are logged, tracked, or sent across the internet, guaranteeing complete privacy for your financial calculations.',
+    },
     features: [
       'What is X% of Y? (Basic percentage)',
       'X is what percent of Y? (Fraction and ratio percentage)',
@@ -755,8 +1080,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'How do you calculate percentage increase or decrease?',
-        answer: 'Subtract the original value from the new value, divide by the original value, and multiply by 100. A positive result is an increase; a negative result is a decrease.',
+        question: 'What is the formula to calculate a percentage increase or decrease?',
+        answer: 'Subtract the original number from the new number, divide the result by the original number, and multiply by 100. A positive result indicates a percentage increase, while a negative result represents a percentage decrease.',
+      },
+      {
+        question: 'How do I calculate a sale price with a percentage discount?',
+        answer: 'Multiply the original price by the discount percentage divided by 100 to get your total savings, then subtract those savings from the original price to find the final sale price.',
+      },
+      {
+        question: 'Can I calculate negative percentages or values with decimals?',
+        answer: 'Yes, all calculator modes support negative numbers, integers, and floating-point decimal values with high-precision arithmetic.',
+      },
+      {
+        question: 'What is the difference between a percentage point and a percentage change?',
+        answer: 'A percentage point is the simple arithmetic difference between two percentages (e.g. from 10% to 15% is a 5 percentage point increase), whereas percentage change measures relative growth ((15 - 10) / 10 = a 50% increase).',
+      },
+      {
+        question: 'Does the calculator update automatically as I type?',
+        answer: 'Yes, results recalculate instantly on every keystroke without requiring you to click a submit button or reload the webpage.',
       },
     ],
   },
@@ -777,6 +1118,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Calculator',
     component: LoanCalculator,
     relatedToolIds: ['percentage-calculator', 'age-calculator', 'unit-converter'],
+    explainer: {
+      title: 'Loan & EMI Calculator: Monthly Payments & Amortization Schedule',
+      whatItDoes:
+        'Taking out a mortgage, car financing, student loan, or personal credit line involves complex compound interest math. The Tektonis Loan & EMI Calculator calculates your exact Equated Monthly Installment (EMI), total interest payable over the life of the loan, and overall repayment amount. It includes interactive sliders for principal, interest rate, and duration, supports multiple global currencies, and generates a detailed year-by-year amortization schedule showing your declining balance.',
+      howItWorks:
+        'The calculator computes monthly payments using the universal standard banking formula: EMI = [P * r * (1 + r)^n] / [(1 + r)^n - 1], where P is the principal loan amount, r is the monthly interest rate (annual APR divided by 12 and 100), and n is the total number of monthly payments. For the amortization schedule, our engine calculates the exact proportion of each payment dedicated to interest versus principal reduction, demonstrating how principal equity builds over time.',
+      whenToUse: [
+        'Estimating monthly mortgage payments and total interest costs before buying a home.',
+        'Comparing auto loan interest rates and tenure options between dealership financing and credit unions.',
+        'Calculating student loan or personal loan consolidation payoff schedules.',
+        'Visualizing how shortening your loan duration by a few years saves thousands in cumulative interest.',
+      ],
+      clientSideBenefit:
+        'Your financial figures, income plans, and loan amounts are sensitive personal information. Many financial comparison portals require your email, phone number, or run credit checks behind the scenes. Tektonis runs entirely inside your browser. No numbers or financial values are ever uploaded or tracked.',
+    },
     features: [
       'Accurate monthly EMI calculation using standard financial formulas',
       'Principal vs. Interest percentage breakdown and visual ratio bar',
@@ -791,8 +1147,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'What is EMI in loans?',
-        answer: 'EMI stands for Equated Monthly Installment. It is the fixed payment amount made by a borrower to a lender at a specified date each calendar month until the loan is fully repaid.',
+        question: 'What is an Equated Monthly Installment (EMI)?',
+        answer: 'An EMI is a fixed payment amount made by a borrower to a lender at a specified date each month. Each payment covers both interest and principal repayment, paying off the loan in full by the end of its tenure.',
+      },
+      {
+        question: 'Why is more interest paid during the early years of a long-term loan?',
+        answer: 'Because interest is calculated against the remaining principal balance, payments in the early years have a large balance and therefore higher interest costs. As the principal drops, an increasing portion of your payment goes toward principal.',
+      },
+      {
+        question: 'Can I model loans in different currencies like USD, EUR, GBP, or INR?',
+        answer: 'Yes, the calculator features a quick currency selector supporting Dollars ($), Euros (€), British Pounds (£), and Indian Rupees (₹), preserving the mathematical formulas consistently.',
+      },
+      {
+        question: 'How does loan tenure affect the total interest I pay?',
+        answer: 'A longer tenure lowers your monthly payment but significantly increases the total interest paid over the life of the loan. A shorter tenure increases monthly payments but saves substantial money on total interest.',
+      },
+      {
+        question: 'Does this calculator account for property taxes or home insurance?',
+        answer: 'This tool calculates pure principal and interest (P&I) payments. Taxes, homeowners insurance, and private mortgage insurance (PMI) vary by municipality and lender and should be budgeted separately.',
       },
     ],
   },
@@ -813,6 +1185,21 @@ export const TOOLS: ToolDefinition[] = [
     iconName: 'Activity',
     component: BmiCalculator,
     relatedToolIds: ['unit-converter', 'age-calculator', 'percentage-calculator'],
+    explainer: {
+      title: 'BMI Calculator: Body Mass Index & Healthy Weight Guide',
+      whatItDoes:
+        'Checking whether your body weight is in a healthy range should be simple, private, and straightforward. The Tektonis BMI Calculator calculates your Body Mass Index (BMI) using standard World Health Organization (WHO) categories. Whether you measure your height and weight in metric units (centimeters and kilograms) or imperial units (feet, inches, and pounds), this tool computes your BMI score, identifies your weight category, displays a visual progress scale, and calculates your ideal healthy weight target range.',
+      howItWorks:
+        'Body Mass Index is calculated by dividing your body weight in kilograms by the square of your height in meters: BMI = weight (kg) / [height (m)]². For imperial measurements, the formula uses: BMI = [weight (lbs) * 703] / [height (inches)]². The resulting score maps directly to official WHO adult weight thresholds: Underweight (< 18.5), Normal weight (18.5 - 24.9), Overweight (25 - 29.9), and Obese (>= 30.0). Our calculator also back-computes the minimum and maximum healthy weights corresponding to a normal 18.5 to 24.9 BMI range for your exact height.',
+      whenToUse: [
+        'Assessing general health and fitness baselines before starting a new nutritional or workout program.',
+        'Tracking body weight changes over time to ensure weight loss or muscle building stays within safe parameters.',
+        'Estimating target weight goals for wellness checkups, medical intake forms, or life insurance screenings.',
+        'Converting between metric kilograms and imperial pounds during fitness tracking.',
+      ],
+      clientSideBenefit:
+        'Health and weight numbers are deeply personal personal health information. Unlike online diet and wellness portals that store your biometric details or sell health data to advertisers, Tektonis runs 100% inside your browser. No weights, heights, or BMI results are ever uploaded to a server or stored in cookies.',
+    },
     features: [
       'Metric (cm/kg) and Imperial (ft-in/lbs) unit support',
       'WHO Body Mass Index classification gauge (Underweight, Normal, Overweight, Obese)',
@@ -826,8 +1213,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'What is a healthy BMI for adults?',
-        answer: 'According to the World Health Organization (WHO), a BMI between 18.5 and 24.9 is considered the normal, healthy weight range for adult men and women.',
+        question: 'What is considered a healthy BMI score for adults?',
+        answer: 'According to the World Health Organization (WHO), a BMI between 18.5 and 24.9 is considered normal weight. A score below 18.5 indicates underweight, 25 to 29.9 indicates overweight, and 30 or higher indicates obesity.',
+      },
+      {
+        question: 'How does BMI differ for athletes and individuals with high muscle mass?',
+        answer: 'BMI measures total body mass relative to height, but it cannot differentiate between dense lean muscle tissue and body fat. Athletes, bodybuilders, and fitness enthusiasts may have higher BMI scores classified as overweight despite having low body fat percentages.',
+      },
+      {
+        question: 'Can I enter my height in feet and inches or centimeters?',
+        answer: 'Yes, the calculator includes an instant toggle between Metric (kilograms and centimeters) and Imperial (pounds, feet, and inches), converting values seamlessly.',
+      },
+      {
+        question: 'What is the healthy weight range shown below my BMI score?',
+        answer: 'The healthy weight range calculates the exact minimum and maximum body weights (in kilograms or pounds) that correspond to a normal 18.5 to 24.9 BMI for your specific height.',
+      },
+      {
+        question: 'Is my health or weight data logged on your servers?',
+        answer: 'No, all biometric calculations occur strictly within your browser\'s local memory. None of your inputs, dates, or results are ever recorded, saved, or transmitted across the internet.',
       },
     ],
   },
@@ -847,7 +1250,22 @@ export const TOOLS: ToolDefinition[] = [
       'Design visual CSS and Tailwind box shadows with blur, spread, and inset controls in real time. 100% free, client-side, and requires no signup.',
     iconName: 'Sliders',
     component: BoxShadowGenerator,
-    relatedToolIds: ['color-converter', 'json-formatter', 'meta-tag-generator'],
+    relatedToolIds: ['color-converter', 'json-formatter', 'markdown-converter'],
+    explainer: {
+      title: 'CSS Box Shadow Generator: Modern Layered Drop Shadows',
+      whatItDoes:
+        'Creating soft, realistic drop shadows in CSS usually involves endless guesswork with pixel offsets, blur radiuses, and opacity values. The Tektonis CSS Box Shadow Generator lets you visually design modern elevation shadows and layered neumorphic depth effects in real time. Adjust horizontal and vertical offsets, blur radius, spread distance, color, and opacity, then toggle between drop shadows and inset inner shadows. When you are satisfied with the look, copy the clean CSS code snippet directly into your stylesheet or Tailwind configuration.',
+      howItWorks:
+        'The tool binds interactive range sliders to the standard CSS box-shadow property syntax: box-shadow: [inset] [horizontal-offset] [vertical-offset] [blur-radius] [spread-radius] [color]. As you move the sliders, an HTML preview card dynamically renders the resulting shadow effect on a contrasting background. You can adjust the shadow color using an RGBA color picker with a dedicated alpha transparency slider, allowing you to create subtle, multi-layered ambient light effects that look natural on both light and dark UI themes.',
+      whenToUse: [
+        'Designing modern cards, modal dialogs, buttons, and dropdown menus for web applications.',
+        'Fine-tuning elevation layers in design systems to establish clear visual depth and hierarchy.',
+        'Creating inset inner shadows for form inputs, pressed button states, and skeumorphic UI toggles.',
+        'Testing shadow visibility against both light and dark backgrounds before adding styles to production.',
+      ],
+      clientSideBenefit:
+        'CSS styling should be fast, private, and distraction-free. The generator runs completely within your web browser with zero network requests or telemetry. You can prototype custom shadow styles for client projects and proprietary design systems with instant 60 FPS slider responsiveness.',
+    },
     features: [
       'Visual sliders for horizontal offset, vertical offset, blur radius, spread, and opacity',
       'Support for inset inner shadows',
@@ -862,15 +1280,31 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'How do I use this shadow in Tailwind CSS?',
-        answer: 'Click "Copy Tailwind" to copy the arbitrary utility class (e.g. `shadow-[0px_10px_25px_-5px_rgba(0,0,0,0.2)]`) directly into your HTML or JSX class list.',
+        question: 'How do the blur radius and spread radius properties differ in CSS?',
+        answer: 'Blur radius controls how soft and diffuse the shadow edges appear; higher values create a larger, softer blur. Spread radius expands or contracts the shadow footprint before blurring is applied; positive values enlarge the shadow, while negative values shrink it.',
+      },
+      {
+        question: 'What is the difference between an outline drop shadow and an inset shadow?',
+        answer: 'A regular drop shadow casts a shadow outside the element, making it appear elevated above the page. An inset shadow casts the shadow inside the element\'s border box, creating a recessed, sunken, or pressed-in appearance.',
+      },
+      {
+        question: 'Can I use the generated CSS code with Tailwind CSS or CSS-in-JS?',
+        answer: 'Yes, you can paste the generated box-shadow string into standard CSS stylesheets, SCSS, Styled Components, Emotion, or map it directly into the boxShadow section of your tailwind.config.js file.',
+      },
+      {
+        question: 'Why do professional UI designs use low opacity and high blur for shadows?',
+        answer: 'In the physical world, ambient light bounces and diffuses naturally. Subtle shadows with low opacity (10% to 20%) and larger blur values look soft and modern, whereas dark, tight shadows look harsh and dated.',
+      },
+      {
+        question: 'Does this box shadow generator support all modern web browsers?',
+        answer: 'Yes, box-shadow is supported across 100% of modern web browsers including Chrome, Safari, Firefox, and Edge, requiring no vendor prefixes (-webkit- or -moz-).',
       },
     ],
   },
   {
     id: 'markdown-converter',
     slug: 'markdown-converter',
-    name: 'Markdown Editor',
+    name: 'Markdown to HTML',
     category: 'text',
     badge: 'Popular',
     searchVolumeMonthly: '3.1M / mo',
@@ -878,12 +1312,27 @@ export const TOOLS: ToolDefinition[] = [
     shortDescription: 'Convert formatted Markdown to clean HTML with split-screen editor, live preview, and syntax tools.',
     longDescription:
       'Edit and preview Markdown in real-time. Supports headings, bold/italics, blockquotes, code blocks, lists, links, and tables. Export clean HTML with a single click or download as a standalone .html file.',
-    metaTitle: 'Markdown Editor — Free, Private, No Signup | Tektonis',
+    metaTitle: 'Markdown to HTML — Free, Private, No Signup | Tektonis',
     metaDescription:
       'Convert Markdown to clean HTML with live split-screen preview and instant code copy. Runs 100% client-side, totally private, and requires no signup.',
     iconName: 'FileText',
     component: MarkdownConverter,
     relatedToolIds: ['word-counter', 'case-converter', 'diff-checker'],
+    explainer: {
+      title: 'Markdown to HTML Converter: Live In-Browser Preview & Syntax',
+      whatItDoes:
+        'Markdown is the gold standard for writing documentation, README files, blog posts, and notes, but publishing that content on the web requires clean HTML. The Tektonis Markdown to HTML Converter converts GitHub Flavored Markdown (GFM) into clean, semantic HTML markup in real time. It supports headings, blockquotes, bold and italic formatting, inline code, syntax-highlighted code blocks, ordered and unordered lists, tables, horizontal dividers, and clickable hyperlinks with a live side-by-side preview.',
+      howItWorks:
+        'The parser tokenizes Markdown syntax into an Abstract Syntax Tree (AST) following the CommonMark and GitHub Flavored Markdown specifications. It replaces standard shorthand tokens (# for headings, * for lists, > for blockquotes, and backticks for code blocks) with their corresponding semantic HTML5 elements (<h1>–<h6>, <ul>, <ol>, <blockquote>, <pre><code>). The rendering pipeline updates instantaneously as you type, letting you copy raw HTML tags, preview the rendered visual document, or copy the formatted rich text directly to your clipboard.',
+      whenToUse: [
+        'Converting README.md files, release notes, or GitHub documentation for inclusion in static websites and HTML emails.',
+        'Drafting blog articles, newsletters, and documentation in Markdown before pasting clean HTML into WordPress or custom CMSs.',
+        'Checking how your GitHub Flavored Markdown tables, task lists, and code blocks will render before committing changes to Git.',
+        'Learning Markdown syntax with instant side-by-side visual feedback.',
+      ],
+      clientSideBenefit:
+        'Writers and developers frequently work with confidential company documentation, unreleased product drafts, and proprietary code snippets. Tektonis parses your Markdown entirely inside your local browser JavaScript engine. No text is ever uploaded to a backend server, ensuring your documentation remains private.',
+    },
     features: [
       'Split-view editor with live real-time HTML rendering',
       'Rich formatting toolbar for headings, bold, italics, code blocks, quotes, and links',
@@ -898,8 +1347,24 @@ export const TOOLS: ToolDefinition[] = [
     ],
     faqs: [
       {
-        question: 'Does this converter support code blocks and lists?',
-        answer: 'Yes! It supports fenced code blocks (` ``` `), inline code (` ` `), blockquotes, lists, bold, italics, links, and multi-level headings.',
+        question: 'Does this converter support GitHub Flavored Markdown (GFM) tables and task lists?',
+        answer: 'Yes, the parser supports GFM extensions including formatted tables, strikethrough text (~~strikethrough~~), and inline code blocks.',
+      },
+      {
+        question: 'Can I copy the raw HTML code or the rendered formatted text?',
+        answer: 'Both! You can copy the raw semantic HTML code snippet to paste into a web editor, or copy the rendered formatted rich text directly into email clients or text documents.',
+      },
+      {
+        question: 'Does this converter sanitize HTML to prevent malicious XSS code execution?',
+        answer: 'Yes, all input is safely parsed to prevent malicious script injection while preserving valid HTML markup tags like links, headings, paragraphs, and lists.',
+      },
+      {
+        question: 'Is there a word or file size limit when converting Markdown?',
+        answer: 'Because parsing happens locally using your computer\'s browser engine rather than an external web server, you can convert extensive documentation and long articles with no timeout restrictions.',
+      },
+      {
+        question: 'Can I write standard HTML tags inside my Markdown document?',
+        answer: 'Yes, Markdown natively allows raw HTML tags, so you can embed custom <div>, <span>, or <img> elements alongside standard Markdown shorthand.',
       },
     ],
   },

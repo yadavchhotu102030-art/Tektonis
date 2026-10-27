@@ -8,9 +8,11 @@ interface SEOHeadProps {
 
 export const SEOHead: React.FC<SEOHeadProps> = ({ tool, isNotFound = false }) => {
   useEffect(() => {
-    // Standardized Vite environment variable with safe default fallback
+    // Configurable site URL from env (supporting NEXT_PUBLIC_SITE_URL & VITE_SITE_URL) with default fallback
     const rawSiteUrl = 
-      (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) ||
+      (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) ||
+      (typeof import.meta !== 'undefined' && (import.meta as any).env?.NEXT_PUBLIC_SITE_URL) ||
+      (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_SITE_URL) ||
       'https://tektonis.in';
     const siteUrl = rawSiteUrl.replace(/\/+$/, '');
 
