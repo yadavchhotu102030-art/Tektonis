@@ -3,7 +3,7 @@ import {
   Star, ArrowRight, Sparkles, 
   FileText, Code, ArrowRightLeft, 
   Shield, Image, Ruler, Clock, Layers, Split, Link2, Pipette, QrCode,
-  Calendar, Percent, Calculator, Activity, Sliders
+  Calendar, Percent, Calculator, Activity, Sliders, Binary, Search
 } from 'lucide-react';
 import { ToolDefinition, ToolCategory } from '../types/tool';
 import { CATEGORIES } from '../tools/registry';
@@ -17,6 +17,8 @@ interface ToolGridProps {
   onSelectCategory: (cat: ToolCategory) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  onlyFavorites?: boolean;
+  onToggleOnlyFavorites?: (val: boolean) => void;
 }
 
 export const ToolGrid: React.FC<ToolGridProps> = ({
@@ -28,9 +30,20 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
   onSelectCategory,
   searchQuery,
   onSearchChange,
+  onlyFavorites: externalOnlyFavorites,
+  onToggleOnlyFavorites,
 }) => {
   const [sortBy, setSortBy] = useState<'popular' | 'name' | 'featured'>('popular');
-  const [onlyFavorites, setOnlyFavorites] = useState(false);
+  const [internalOnlyFavorites, setInternalOnlyFavorites] = useState(false);
+
+  const onlyFavorites = externalOnlyFavorites !== undefined ? externalOnlyFavorites : internalOnlyFavorites;
+  const setOnlyFavorites = (val: boolean) => {
+    if (onToggleOnlyFavorites) {
+      onToggleOnlyFavorites(val);
+    } else {
+      setInternalOnlyFavorites(val);
+    }
+  };
 
   // Helper to pick category icon
   const getToolIcon = (name: string) => {
@@ -39,6 +52,10 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
         return <FileText className="w-5 h-5 text-blue-500" />;
       case 'Code':
         return <Code className="w-5 h-5 text-emerald-500" />;
+      case 'Binary':
+        return <Binary className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />;
+      case 'Search':
+        return <Search className="w-5 h-5 text-indigo-500" />;
       case 'QrCode':
         return <QrCode className="w-5 h-5 text-indigo-500" />;
       case 'ArrowRightLeft':
@@ -74,6 +91,11 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
     }
   };
 
+  const parseVolume = (vol: string) => {
+    const match = vol.match(/([\d.]+)/);
+    return match ? parseFloat(match[1]) : 0;
+  };
+
   // Filter tools
   const filteredTools = tools
     .filter((t) => {
@@ -93,9 +115,10 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
     .sort((a, b) => {
       if (sortBy === 'name') return a.name.localeCompare(b.name);
       if (sortBy === 'popular') {
-        const isHotA = a.badge === 'Popular' || a.badge === 'Hot' ? 1 : 0;
-        const isHotB = b.badge === 'Popular' || b.badge === 'Hot' ? 1 : 0;
-        return isHotB - isHotA;
+        const isHotA = a.badge === 'Popular' || a.badge === 'Hot' || a.badge === 'High Search' ? 1 : 0;
+        const isHotB = b.badge === 'Popular' || b.badge === 'Hot' || b.badge === 'High Search' ? 1 : 0;
+        if (isHotB !== isHotA) return isHotB - isHotA;
+        return parseVolume(b.searchVolumeMonthly) - parseVolume(a.searchVolumeMonthly);
       }
       return 0;
     });
@@ -122,7 +145,7 @@ export const ToolGrid: React.FC<ToolGridProps> = ({
               >
                 <span>{cat.label}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                  className={`text-[10px] px-1.5 py-0.5 rounded-full ${
                     isActive ? 'bg-blue-500 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-400'
                   }`}
                 >

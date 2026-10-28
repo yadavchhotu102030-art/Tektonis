@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { 
   FileText, Code, Copy, Check, Download, 
   Bold, Italic, Heading, Link, List, Quote, Table, Eye, Columns 
@@ -29,6 +29,7 @@ Visit [Tektonis](https://tektonis.in) for more free developer utilities!`
 
   const [activeTab, setActiveTab] = useState<'split' | 'preview' | 'html'>('split');
   const [copied, setCopied] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // Fast client-side markdown to HTML converter
   const htmlOutput = useMemo(() => {
@@ -52,23 +53,67 @@ Visit [Tektonis](https://tektonis.in) for more free developer utilities!`
     html = html.replace(/^# (.*$)/gim, '<h1 class="text-2xl font-black text-slate-900 dark:text-white mt-6 mb-3">$1</h1>');
 
     // Blockquotes
-    html = html.replace(/^\> (.*$)/gim, '<blockquote class="border-l-4 border-blue-500 pl-4 py-1 italic my-3 text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 rounded-r-lg">$1</blockquote>');
+    html = html.replace(/^&gt; (.*$)/gim, '<blockquote class="border-l-4 border-blue-500 pl-4 py-1 italic my-3 text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 rounded-r-lg">$1</blockquote>');
 
-    // Bold & Italic
+    // Bold, Italic & Strikethrough
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
 
     // Links
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">$1</a>');
 
+    // GFM Tables
+    html = html.replace(
+      /^\|(.+)\|\r?\n\|([\s:|-]+)\|\r?\n((?:\|.+\|\r?\n?)+)/gm,
+      (_match, headerRow: string, _dividerRow: string, bodyRows: string) => {
+        const headers = headerRow
+          .split('|')
+          .map((c) => c.trim())
+          .filter(Boolean)
+          .map((h) => `<th class="border border-slate-200 dark:border-slate-700 px-3 py-1.5 bg-slate-50 dark:bg-slate-800 font-bold text-left text-xs">${h}</th>`)
+          .join('');
+        const rows = bodyRows
+          .trim()
+          .split(/\r?\n/)
+          .map((row) => {
+            const cells = row
+              .replace(/^\||\|$/g, '')
+              .split('|')
+              .map((c) => `<td class="border border-slate-200 dark:border-slate-700 px-3 py-1.5 text-xs">${c.trim()}</td>`)
+              .join('');
+            return `<tr>${cells}</tr>`;
+          })
+          .join('');
+        return `<table class="w-full border-collapse my-3"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
+      }
+    );
+
     // Unordered lists
-    html = html.replace(/^\- (.*$)/gim, '<li class="ml-4 list-disc text-slate-700 dark:text-slate-300 my-0.5">$1</li>');
+    html = html.replace(/(?:^\- .*(?:\r?\n|$))+/gm, (match) => {
+      const items = match
+        .trim()
+        .split(/\r?\n/)
+        .map((line) => `<li class="ml-4 list-disc text-slate-700 dark:text-slate-300 my-0.5">${line.replace(/^\-\s+/, '')}</li>`)
+        .join('\n');
+      return `<ul class="my-2">${items}</ul>`;
+    });
+
+    // Ordered lists
+    html = html.replace(/(?:^\d+\. .*(?:\r?\n|$))+/gm, (match) => {
+      const items = match
+        .trim()
+        .split(/\r?\n/)
+        .map((line) => `<li class="ml-4 list-decimal text-slate-700 dark:text-slate-300 my-0.5">${line.replace(/^\d+\.\s+/, '')}</li>`)
+        .join('\n');
+      return `<ol class="my-2">${items}</ol>`;
+    });
 
     // Paragraphs
     html = html
       .split('\n\n')
       .map((block) => {
-        if (/^<h[1-6]|<pre|<blockquote|<li/i.test(block.trim())) {
+        if (/^<(?:h[1-6]|pre|blockquote|ul|ol|li|table)/i.test(block.trim())) {
           return block;
         }
         return `<p class="my-2 leading-relaxed text-slate-700 dark:text-slate-300 text-sm">${block.replace(/\n/g, '<br />')}</p>`;
@@ -78,8 +123,22 @@ Visit [Tektonis](https://tektonis.in) for more free developer utilities!`
     return html;
   }, [markdown]);
 
-  const insertFormatting = (prefix: string, suffix = prefix) => {
-    setMarkdown((prev) => `${prev} ${prefix}Text${suffix}`);
+  const insertFormatting = (prefix: string, suffix = prefix, placeholder = 'Text') => {
+    const el = textareaRef.current;
+    if (!el) {
+      setMarkdown((prev) => `${prev}\n${prefix}${placeholder}${suffix}`);
+      return;
+    }
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const selected = markdown.slice(start, end) || placeholder;
+    const replacement = `${prefix}${selected}${suffix}`;
+    const next = markdown.slice(0, start) + replacement + markdown.slice(end);
+    setMarkdown(next);
+    setTimeout(() => {
+      el.focus();
+      el.setSelectionRange(start + prefix.length, start + prefix.length + selected.length);
+    }, 0);
   };
 
   const handleCopy = (text: string, key: string) => {
@@ -105,49 +164,56 @@ Visit [Tektonis](https://tektonis.in) for more free developer utilities!`
         {/* Formatting buttons */}
         <div className="flex flex-wrap items-center gap-1">
           <button
-            onClick={() => insertFormatting('**')}
+            onClick={() => insertFormatting('**', '**', 'bold text')}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
             title="Bold"
           >
             <Bold className="w-4 h-4" />
           </button>
           <button
-            onClick={() => insertFormatting('*')}
+            onClick={() => insertFormatting('*', '*', 'italic text')}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
             title="Italic"
           >
             <Italic className="w-4 h-4" />
           </button>
           <button
-            onClick={() => insertFormatting('## ', '')}
+            onClick={() => insertFormatting('\n## ', '', 'Heading')}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
             title="Heading"
           >
             <Heading className="w-4 h-4" />
           </button>
           <button
-            onClick={() => insertFormatting('> ', '')}
+            onClick={() => insertFormatting('\n> ', '', 'Quote')}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
             title="Quote"
           >
             <Quote className="w-4 h-4" />
           </button>
           <button
-            onClick={() => insertFormatting('- ', '')}
+            onClick={() => insertFormatting('\n- ', '', 'List item')}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
             title="Bullet list"
           >
             <List className="w-4 h-4" />
           </button>
           <button
-            onClick={() => insertFormatting('[Link Title](https://example.com)', '')}
+            onClick={() => insertFormatting('[', '](https://example.com)', 'Link Title')}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
             title="Link"
           >
             <Link className="w-4 h-4" />
           </button>
           <button
-            onClick={() => insertFormatting('```javascript\n// code here\n```', '')}
+            onClick={() => insertFormatting('\n| Column 1 | Column 2 |\n| --- | --- |\n| ', ' | Value 2 |\n', 'Value 1')}
+            className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
+            title="Table"
+          >
+            <Table className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => insertFormatting('\n```javascript\n', '\n```\n', '// code here')}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
             title="Code block"
           >
@@ -215,6 +281,7 @@ Visit [Tektonis](https://tektonis.in) for more free developer utilities!`
               <span>{markdown.length} characters</span>
             </div>
             <textarea
+              ref={textareaRef}
               value={markdown}
               onChange={(e) => setMarkdown(e.target.value)}
               rows={18}

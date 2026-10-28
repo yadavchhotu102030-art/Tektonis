@@ -16,6 +16,7 @@ export default function App() {
   const [notFoundSlug, setNotFoundSlug] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ToolCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   // Favorites stored in localStorage
@@ -56,6 +57,11 @@ export default function App() {
     // 1. Check legacy query parameter: /?tool=<slug>
     const searchParams = new URLSearchParams(window.location.search);
     const legacySlug = searchParams.get('tool');
+    const searchParam = searchParams.get('search') || searchParams.get('q');
+
+    if (searchParam !== null) {
+      setSearchQuery(searchParam);
+    }
 
     if (legacySlug) {
       // 301 client redirect: drop query params, push clean /tools/<slug> path
@@ -181,8 +187,12 @@ export default function App() {
         onShowFavorites={() => {
           goHome();
           setSelectedCategory('all');
+          setOnlyFavorites((prev) => !prev);
         }}
-        onGoHome={goHome}
+        onGoHome={() => {
+          setOnlyFavorites(false);
+          goHome();
+        }}
         activeTool={activeTool}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
@@ -223,6 +233,8 @@ export default function App() {
               onSelectCategory={setSelectedCategory}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
+              onlyFavorites={onlyFavorites}
+              onToggleOnlyFavorites={setOnlyFavorites}
             />
           </div>
         )}

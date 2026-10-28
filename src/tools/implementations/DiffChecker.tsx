@@ -168,36 +168,105 @@ export const DiffChecker: React.FC = () => {
 
       {/* Diff Result Viewer */}
       <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-hidden shadow-xs">
-        <div className="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300">
-          Visual Comparison Output
+        <div className="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+          <span>Visual Comparison Output ({viewMode === 'split' ? 'Split Side-by-Side' : 'Unified Stream'})</span>
         </div>
 
-        <div className="p-3 overflow-x-auto font-mono text-xs max-h-96">
-          {diffResult.lines.map((line, idx) => {
-            if (line.type === 'added') {
-              return (
-                <div key={idx} className="flex items-start bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 px-2 py-0.5 rounded">
-                  <span className="w-8 select-none text-emerald-500 font-bold shrink-0">+</span>
-                  <span className="whitespace-pre-wrap break-all">{line.text || ' '}</span>
-                </div>
-              );
-            }
-            if (line.type === 'removed') {
-              return (
-                <div key={idx} className="flex items-start bg-rose-50/80 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 px-2 py-0.5 rounded">
-                  <span className="w-8 select-none text-rose-500 font-bold shrink-0">-</span>
-                  <span className="whitespace-pre-wrap break-all">{line.text || ' '}</span>
-                </div>
-              );
-            }
-            return (
-              <div key={idx} className="flex items-start text-slate-600 dark:text-slate-400 px-2 py-0.5">
-                <span className="w-8 select-none text-slate-300 dark:text-slate-600 shrink-0"> </span>
-                <span className="whitespace-pre-wrap break-all">{line.text || ' '}</span>
+        {viewMode === 'split' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-slate-700 font-mono text-xs max-h-96 overflow-y-auto">
+            {/* Left Column: Original */}
+            <div className="p-3 overflow-x-auto space-y-0.5">
+              <div className="text-[10px] font-sans font-bold uppercase tracking-wider text-slate-400 pb-1.5 mb-1 border-b border-slate-100 dark:border-slate-800">
+                Original
               </div>
-            );
-          })}
-        </div>
+              {diffResult.lines
+                .filter((line) => line.type !== 'added')
+                .map((line, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex items-start px-2 py-0.5 rounded ${
+                      line.type === 'removed'
+                        ? 'bg-rose-50/80 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200'
+                        : 'text-slate-600 dark:text-slate-400'
+                    }`}
+                  >
+                    <span className="w-7 select-none text-slate-400 dark:text-slate-600 text-[10px] shrink-0">
+                      {line.origNum ?? ''}
+                    </span>
+                    <span
+                      className={`w-5 select-none font-bold shrink-0 ${
+                        line.type === 'removed' ? 'text-rose-500' : 'text-slate-300 dark:text-slate-600'
+                      }`}
+                    >
+                      {line.type === 'removed' ? '-' : ' '}
+                    </span>
+                    <span className="whitespace-pre-wrap break-all">{line.text || ' '}</span>
+                  </div>
+                ))}
+            </div>
+
+            {/* Right Column: Modified */}
+            <div className="p-3 overflow-x-auto space-y-0.5">
+              <div className="text-[10px] font-sans font-bold uppercase tracking-wider text-slate-400 pb-1.5 mb-1 border-b border-slate-100 dark:border-slate-800">
+                Modified
+              </div>
+              {diffResult.lines
+                .filter((line) => line.type !== 'removed')
+                .map((line, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex items-start px-2 py-0.5 rounded ${
+                      line.type === 'added'
+                        ? 'bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200'
+                        : 'text-slate-600 dark:text-slate-400'
+                    }`}
+                  >
+                    <span className="w-7 select-none text-slate-400 dark:text-slate-600 text-[10px] shrink-0">
+                      {line.modNum ?? ''}
+                    </span>
+                    <span
+                      className={`w-5 select-none font-bold shrink-0 ${
+                        line.type === 'added' ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-600'
+                      }`}
+                    >
+                      {line.type === 'added' ? '+' : ' '}
+                    </span>
+                    <span className="whitespace-pre-wrap break-all">{line.text || ' '}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        ) : (
+          <div className="p-3 overflow-x-auto font-mono text-xs max-h-96 space-y-0.5">
+            {diffResult.lines.map((line, idx) => {
+              if (line.type === 'added') {
+                return (
+                  <div key={idx} className="flex items-start bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 px-2 py-0.5 rounded">
+                    <span className="w-7 select-none text-emerald-600/60 dark:text-emerald-400/60 text-[10px] shrink-0">{line.modNum ?? ''}</span>
+                    <span className="w-6 select-none text-emerald-500 font-bold shrink-0">+</span>
+                    <span className="whitespace-pre-wrap break-all">{line.text || ' '}</span>
+                  </div>
+                );
+              }
+              if (line.type === 'removed') {
+                return (
+                  <div key={idx} className="flex items-start bg-rose-50/80 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 px-2 py-0.5 rounded">
+                    <span className="w-7 select-none text-rose-600/60 dark:text-rose-400/60 text-[10px] shrink-0">{line.origNum ?? ''}</span>
+                    <span className="w-6 select-none text-rose-500 font-bold shrink-0">-</span>
+                    <span className="whitespace-pre-wrap break-all">{line.text || ' '}</span>
+                  </div>
+                );
+              }
+              return (
+                <div key={idx} className="flex items-start text-slate-600 dark:text-slate-400 px-2 py-0.5">
+                  <span className="w-7 select-none text-slate-400 dark:text-slate-600 text-[10px] shrink-0">{line.origNum ?? ''}</span>
+                  <span className="w-6 select-none text-slate-300 dark:text-slate-600 shrink-0"> </span>
+                  <span className="whitespace-pre-wrap break-all">{line.text || ' '}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

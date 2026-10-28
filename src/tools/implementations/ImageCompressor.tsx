@@ -32,9 +32,10 @@ export const ImageCompressor: React.FC = () => {
 
       const img = new Image();
       img.onload = () => {
+        const initMaxW = Math.min(1920, img.width);
         setOriginalDim({ w: img.width, h: img.height });
-        setMaxWidth(Math.min(1920, img.width));
-        processCompression(img, img.width, img.height, quality, format);
+        setMaxWidth(initMaxW);
+        processCompression(img, img.width, img.height, quality, format, initMaxW);
       };
       img.src = src;
     };
@@ -46,22 +47,26 @@ export const ImageCompressor: React.FC = () => {
     srcW: number,
     srcH: number,
     q: number,
-    mimeType: string
+    mimeType: string,
+    maxW: number
   ) => {
     setIsProcessing(true);
     const canvas = document.createElement('canvas');
     let targetW = srcW;
     let targetH = srcH;
 
-    if (targetW > maxWidth) {
-      targetH = Math.round((targetH * maxWidth) / targetW);
-      targetW = maxWidth;
+    if (targetW > maxW && maxW > 0) {
+      targetH = Math.round((targetH * maxW) / targetW);
+      targetW = maxW;
     }
 
     canvas.width = targetW;
     canvas.height = targetH;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {
+      setIsProcessing(false);
+      return;
+    }
 
     ctx.drawImage(img, 0, 0, targetW, targetH);
 
@@ -85,7 +90,7 @@ export const ImageCompressor: React.FC = () => {
     if (!originalPreview) return;
     const img = new Image();
     img.onload = () => {
-      processCompression(img, originalDim.w, originalDim.h, newQ, newFmt);
+      processCompression(img, originalDim.w, originalDim.h, newQ, newFmt, newMaxW);
     };
     img.src = originalPreview;
   };
@@ -130,7 +135,7 @@ export const ImageCompressor: React.FC = () => {
       ) : (
         <div className="space-y-6">
           {/* Controls Bar */}
-          <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+          <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
             {/* Format */}
             <div>
               <label htmlFor="img-format-select" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Output Format</label>
@@ -174,6 +179,29 @@ export const ImageCompressor: React.FC = () => {
               />
             </div>
 
+            {/* Max Width */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label htmlFor="img-width-slider" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Max Width</label>
+                <span className="text-xs font-bold text-blue-600 font-mono">{maxWidth}px</span>
+              </div>
+              <input
+                id="img-width-slider"
+                type="range"
+                min={Math.min(160, originalDim.w || 160)}
+                max={originalDim.w || 3840}
+                step={10}
+                value={maxWidth}
+                aria-label="Maximum image width slider"
+                onChange={(e) => {
+                  const w = Number(e.target.value);
+                  setMaxWidth(w);
+                  triggerRecompress(quality, format, w);
+                }}
+                className="w-full accent-blue-600 cursor-pointer"
+              />
+            </div>
+
             {/* Change File button */}
             <div className="flex items-center gap-2 justify-end">
               <label className="px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 cursor-pointer transition">
@@ -183,8 +211,8 @@ export const ImageCompressor: React.FC = () => {
               <button
                 onClick={handleDownload}
                 aria-label="Download compressed image"
-                disabled={!compressedUrl}
-                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition"
+                disabled={!compressedUrl || isProcessing}
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition disabled:opacity-50"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Download</span>

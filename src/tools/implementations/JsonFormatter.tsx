@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Trash2, Check, Download, Upload, AlertCircle, CheckCircle2, Minimize2, Maximize2 } from 'lucide-react';
+import { Copy, Trash2, Check, Download, Upload, AlertCircle, CheckCircle2, Minimize2, ChevronRight, ChevronDown } from 'lucide-react';
 
 export const JsonFormatter: React.FC = () => {
   const [input, setInput] = useState<string>(
@@ -12,7 +12,7 @@ export const JsonFormatter: React.FC = () => {
         stats: {
           monthlyVisitors: 450000,
           privacyScore: 100,
-          toolsAvailable: 15
+          toolsAvailable: 20
         },
         tags: ["seo", "utilities", "developer", "free"]
       },
@@ -22,19 +22,27 @@ export const JsonFormatter: React.FC = () => {
   );
   const [indent, setIndent] = useState<number>(2);
   const [error, setError] = useState<string | null>(null);
+  const [validMessage, setValidMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'editor' | 'tree'>('editor');
+  const [collapsedPaths, setCollapsedPaths] = useState<Record<string, boolean>>({});
+
+  const togglePath = (path: string) => {
+    setCollapsedPaths((prev) => ({ ...prev, [path]: !prev[path] }));
+  };
 
   const formatJson = (spaces: number) => {
     try {
       if (!input.trim()) {
         setError(null);
+        setValidMessage(null);
         return;
       }
       const parsed = JSON.parse(input);
       setInput(JSON.stringify(parsed, null, spaces));
       setError(null);
     } catch (err: unknown) {
+      setValidMessage(null);
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -50,6 +58,7 @@ export const JsonFormatter: React.FC = () => {
       setInput(JSON.stringify(parsed));
       setError(null);
     } catch (err: unknown) {
+      setValidMessage(null);
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -62,12 +71,15 @@ export const JsonFormatter: React.FC = () => {
     try {
       if (!input.trim()) {
         setError('Input is empty');
+        setValidMessage(null);
         return;
       }
       JSON.parse(input);
       setError(null);
-      alert('Valid JSON! Syntax is clean.');
+      setValidMessage('Valid JSON! Syntax is clean and compliant with ECMA-404.');
+      setTimeout(() => setValidMessage(null), 4000);
     } catch (err: unknown) {
+      setValidMessage(null);
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -118,10 +130,10 @@ export const JsonFormatter: React.FC = () => {
     }
   })();
 
-  const renderJsonTreeNode = (keyName: string | null, value: unknown, depth = 0): React.ReactNode => {
+  const renderJsonTreeNode = (keyName: string | null, value: unknown, depth = 0, path = 'root'): React.ReactNode => {
     if (value === null) {
       return (
-        <div key={keyName} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
+        <div key={path} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
           {keyName && <span className="text-purple-600 dark:text-purple-400 font-medium">{keyName}: </span>}
           <span className="text-slate-400 italic">null</span>
         </div>
@@ -130,7 +142,7 @@ export const JsonFormatter: React.FC = () => {
 
     if (typeof value === 'boolean') {
       return (
-        <div key={keyName} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
+        <div key={path} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
           {keyName && <span className="text-purple-600 dark:text-purple-400 font-medium">{keyName}: </span>}
           <span className="text-amber-600 dark:text-amber-400 font-semibold">{String(value)}</span>
         </div>
@@ -139,7 +151,7 @@ export const JsonFormatter: React.FC = () => {
 
     if (typeof value === 'number') {
       return (
-        <div key={keyName} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
+        <div key={path} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
           {keyName && <span className="text-purple-600 dark:text-purple-400 font-medium">{keyName}: </span>}
           <span className="text-blue-600 dark:text-blue-400 font-mono">{value}</span>
         </div>
@@ -148,7 +160,7 @@ export const JsonFormatter: React.FC = () => {
 
     if (typeof value === 'string') {
       return (
-        <div key={keyName} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
+        <div key={path} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
           {keyName && <span className="text-purple-600 dark:text-purple-400 font-medium">{keyName}: </span>}
           <span className="text-emerald-600 dark:text-emerald-400 font-mono">"{value}"</span>
         </div>
@@ -156,28 +168,54 @@ export const JsonFormatter: React.FC = () => {
     }
 
     if (Array.isArray(value)) {
+      const isCollapsed = Boolean(collapsedPaths[path]);
       return (
-        <div key={keyName || 'root'} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
-          <span className="text-purple-600 dark:text-purple-400 font-medium">{keyName ? `${keyName}: ` : ''}</span>
-          <span className="text-slate-500 font-semibold">[{value.length}]</span>
-          <div className="border-l border-slate-200 dark:border-slate-700 ml-1">
-            {value.map((item, idx) => renderJsonTreeNode(String(idx), item, depth + 1))}
-          </div>
+        <div key={path} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
+          <button
+            type="button"
+            onClick={() => togglePath(path)}
+            className="inline-flex items-center gap-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded px-1 -ml-1 transition"
+          >
+            {isCollapsed ? <ChevronRight className="w-3 h-3 text-slate-400" /> : <ChevronDown className="w-3 h-3 text-slate-400" />}
+            {keyName && <span className="text-purple-600 dark:text-purple-400 font-medium">{keyName}: </span>}
+            <span className="text-slate-500 font-semibold">[{value.length}{isCollapsed ? ' …]' : ''}</span>
+          </button>
+          {!isCollapsed && (
+            <>
+              <div className="border-l border-slate-200 dark:border-slate-700 ml-1.5">
+                {value.map((item, idx) => renderJsonTreeNode(String(idx), item, depth + 1, `${path}.${idx}`))}
+              </div>
+              <span className="text-slate-500 font-semibold pl-1">]</span>
+            </>
+          )}
         </div>
       );
     }
 
     if (typeof value === 'object') {
+      const entries = Object.entries(value as Record<string, unknown>);
+      const isCollapsed = Boolean(collapsedPaths[path]);
       return (
-        <div key={keyName || 'root'} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
-          <span className="text-purple-600 dark:text-purple-400 font-medium">{keyName ? `${keyName}: ` : ''}</span>
-          <span className="text-slate-500 font-semibold">{'{'}</span>
-          <div className="border-l border-slate-200 dark:border-slate-700 ml-1">
-            {Object.entries(value as Record<string, unknown>).map(([k, val]) =>
-              renderJsonTreeNode(k, val, depth + 1)
-            )}
-          </div>
-          <span className="text-slate-500 font-semibold">{'}'}</span>
+        <div key={path} style={{ paddingLeft: `${depth * 16}px` }} className="text-xs py-0.5">
+          <button
+            type="button"
+            onClick={() => togglePath(path)}
+            className="inline-flex items-center gap-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded px-1 -ml-1 transition"
+          >
+            {isCollapsed ? <ChevronRight className="w-3 h-3 text-slate-400" /> : <ChevronDown className="w-3 h-3 text-slate-400" />}
+            {keyName && <span className="text-purple-600 dark:text-purple-400 font-medium">{keyName}: </span>}
+            <span className="text-slate-500 font-semibold">{isCollapsed ? `{… ${entries.length} keys}` : '{'}</span>
+          </button>
+          {!isCollapsed && (
+            <>
+              <div className="border-l border-slate-200 dark:border-slate-700 ml-1.5">
+                {entries.map(([k, val]) =>
+                  renderJsonTreeNode(k, val, depth + 1, `${path}.${k}`)
+                )}
+              </div>
+              <span className="text-slate-500 font-semibold pl-1">{'}'}</span>
+            </>
+          )}
         </div>
       );
     }
@@ -293,7 +331,7 @@ export const JsonFormatter: React.FC = () => {
         </div>
       </div>
 
-      {/* Error alert */}
+      {/* Error or Valid alert */}
       {error && (
         <div className="flex items-start gap-2.5 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-xs">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -301,6 +339,13 @@ export const JsonFormatter: React.FC = () => {
             <p className="font-semibold">JSON Syntax Error</p>
             <p className="font-mono text-[11px] mt-0.5">{error}</p>
           </div>
+        </div>
+      )}
+
+      {validMessage && !error && (
+        <div className="flex items-center gap-2.5 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+          <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
+          <span>{validMessage}</span>
         </div>
       )}
 

@@ -14,9 +14,9 @@ export const Base64Tool: React.FC = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [imageFileName, setImageFileName] = useState<string>('');
   const [imageSize, setImageSize] = useState<number>(0);
-  const [copied, setCopied] = useState(false);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  // Encode / Decode text
+  // Encode / Decode text using UTF-8 safe TextEncoder / TextDecoder
   React.useEffect(() => {
     if (mode !== 'text') return;
     setTextError(null);
@@ -27,10 +27,19 @@ export const Base64Tool: React.FC = () => {
 
     try {
       if (subMode === 'encode') {
-        const encoded = btoa(unescape(encodeURIComponent(textInput)));
-        setTextOutput(encoded);
+        const bytes = new TextEncoder().encode(textInput);
+        let binary = '';
+        bytes.forEach((b) => {
+          binary += String.fromCharCode(b);
+        });
+        setTextOutput(btoa(binary));
       } else {
-        const decoded = decodeURIComponent(escape(atob(textInput.trim())));
+        const binary = atob(textInput.trim());
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        const decoded = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
         setTextOutput(decoded);
       }
     } catch (err: unknown) {
@@ -52,10 +61,10 @@ export const Base64Tool: React.FC = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleCopy = (str: string) => {
+  const handleCopy = (str: string, key = 'text') => {
     navigator.clipboard.writeText(str);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(null), 2000);
   };
 
   const handleDownload = (content: string, filename: string) => {
@@ -155,12 +164,12 @@ export const Base64Tool: React.FC = () => {
                 </span>
                 <div className="flex items-center gap-1.5">
                   <button
-                    onClick={() => handleCopy(textOutput)}
+                    onClick={() => handleCopy(textOutput, 'text')}
                     disabled={!textOutput}
                     className="flex items-center gap-1 px-2 py-0.5 font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/40 rounded transition disabled:opacity-40"
                   >
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                    <span>{copied ? 'Copied' : 'Copy'}</span>
+                    {copiedKey === 'text' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    <span>{copiedKey === 'text' ? 'Copied' : 'Copy'}</span>
                   </button>
                   <button
                     onClick={() => handleDownload(textOutput, subMode === 'encode' ? 'encoded.txt' : 'decoded.txt')}
@@ -214,17 +223,18 @@ export const Base64Tool: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => handleCopy(imageSrc)}
+                    onClick={() => handleCopy(imageSrc, 'uri')}
                     className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
                   >
-                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copied ? 'Data URI Copied' : 'Copy Data URI'}</span>
+                    {copiedKey === 'uri' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedKey === 'uri' ? 'Data URI Copied' : 'Copy Data URI'}</span>
                   </button>
                   <button
-                    onClick={() => handleCopy(`<img src="${imageSrc}" alt="${imageFileName}" />`)}
-                    className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 transition"
+                    onClick={() => handleCopy(`<img src="${imageSrc}" alt="${imageFileName}" />`, 'img')}
+                    className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 transition"
                   >
-                    Copy HTML &lt;img&gt;
+                    {copiedKey === 'img' ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedKey === 'img' ? 'HTML Copied' : 'Copy HTML <img>'}</span>
                   </button>
                 </div>
               </div>

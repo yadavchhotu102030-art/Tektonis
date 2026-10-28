@@ -66,9 +66,56 @@ export const ColorConverter: React.FC = () => {
     return { c, m, y, k: Math.round(k * 100) };
   };
 
+  const rgbToHsv = (r: number, g: number, b: number) => {
+    const r1 = r / 255;
+    const g1 = g / 255;
+    const b1 = b / 255;
+    const max = Math.max(r1, g1, b1);
+    const min = Math.min(r1, g1, b1);
+    const d = max - min;
+    let h = 0;
+    const s = max === 0 ? 0 : d / max;
+    const v = max;
+
+    if (max !== min) {
+      switch (max) {
+        case r1:
+          h = (g1 - b1) / d + (g1 < b1 ? 6 : 0);
+          break;
+        case g1:
+          h = (b1 - r1) / d + 2;
+          break;
+        case b1:
+          h = (r1 - g1) / d + 4;
+          break;
+      }
+      h /= 6;
+    }
+    return {
+      h: Math.round(h * 360),
+      s: Math.round(s * 100),
+      v: Math.round(v * 100),
+    };
+  };
+
   const rgb = hexToRgb(hex);
   const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+  const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
   const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+
+  const handleEyeDropper = async () => {
+    if ('EyeDropper' in window) {
+      try {
+        const eyeDropper = new (window as unknown as { EyeDropper: new () => { open: () => Promise<{ sRGBHex: string }> } }).EyeDropper();
+        const result = await eyeDropper.open();
+        if (result?.sRGBHex) {
+          setHex(result.sRGBHex);
+        }
+      } catch {
+        // User canceled selection
+      }
+    }
+  };
 
   // Luminance and WCAG Contrast ratio
   const getLuminance = (r: number, g: number, b: number) => {
@@ -89,7 +136,6 @@ export const ColorConverter: React.FC = () => {
   const passesAANormal = contrastRatio >= 4.5;
   const passesAALarge = contrastRatio >= 3.0;
   const passesAAANormal = contrastRatio >= 7.0;
-  const passesAAALarge = contrastRatio >= 4.5;
 
   const handleCopy = (str: string, key: string) => {
     navigator.clipboard.writeText(str);
@@ -152,7 +198,7 @@ export const ColorConverter: React.FC = () => {
               className="w-full h-32 rounded-2xl shadow-inner border border-slate-200 dark:border-slate-700 transition-all"
               style={{ backgroundColor: hex }}
             />
-            <div className="flex items-center gap-3 mt-4">
+            <div className="flex items-center gap-2.5 mt-4">
               <input
                 type="color"
                 value={hex}
@@ -163,8 +209,19 @@ export const ColorConverter: React.FC = () => {
                 type="text"
                 value={hex}
                 onChange={(e) => setHex(e.target.value)}
-                className="w-32 px-3 py-1.5 font-mono text-sm uppercase font-bold rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900"
+                className="w-28 px-3 py-1.5 font-mono text-sm uppercase font-bold rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900"
               />
+              {typeof window !== 'undefined' && 'EyeDropper' in window && (
+                <button
+                  type="button"
+                  onClick={handleEyeDropper}
+                  className="p-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-blue-600 hover:border-blue-400 transition"
+                  title="Pick color from screen (Eyedropper)"
+                  aria-label="Pick color from screen"
+                >
+                  <Pipette className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
 
@@ -174,8 +231,8 @@ export const ColorConverter: React.FC = () => {
               { label: 'HEX', val: hex.toUpperCase() },
               { label: 'RGB', val: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` },
               { label: 'HSL', val: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` },
+              { label: 'HSV', val: `hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)` },
               { label: 'CMYK', val: `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)` },
-              { label: 'CSS Var', val: `--primary: ${hex};` },
               { label: 'Tailwind Hex', val: `bg-[${hex}]` },
             ].map((f) => (
               <div
